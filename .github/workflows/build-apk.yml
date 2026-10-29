@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-android-apk:
     name: Compile Android APK
@@ -20,40 +23,44 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 🟢 Setup Node.js 18
+      - name: 🟢 Setup Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: mobile/package.json
+          node-version: '20'
 
       - name: 📦 Install Mobile App Dependencies
         working-directory: ./mobile
         run: |
-          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
-
-      - name: 🛠️ Setup Android SDK & Tools
-        uses: android-actions/setup-android@v3
+          npm install --legacy-peer-deps
 
       - name: 🏗️ Generate Native Android Project
         working-directory: ./mobile
+        env:
+          CI: "1"
         run: |
-          npx expo prebuild --platform android --clean
+          npx expo prebuild --platform android --clean --no-install
 
       - name: 🚀 Build Universal Android APK (Gradle)
         working-directory: ./mobile/android
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
+          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
         run: |
           chmod +x gradlew
-          ./gradlew assembleRelease --no-daemon || ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleDebug --no-daemon
 
       - name: 🔍 Locate Built APK
         id: find_apk
         run: |
-          APK_PATH=$(find mobile/android/app/build/outputs/apk/ -name "*.apk" | head -n 1)
-          echo "Found APK at: $APK_PATH"
-          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
           mkdir -p release-output
-          cp "$APK_PATH" release-output/VibeVerse-Universal.apk
+          APK_FILE=$(find mobile/android/app/build/outputs/apk -type f -name "*.apk" | head -n 1)
+          if [ -z "$APK_FILE" ]; then
+            echo "❌ Error: No APK file was generated!"
+            exit 1
+          fi
+          echo "✅ Found APK at: $APK_FILE"
+          cp "$APK_FILE" release-output/VibeVerse-Universal.apk
+          ls -lh release-output/
 
       - name: 💾 Upload Permanent Artifact (Direct Download)
         uses: actions/upload-artifact@v4
@@ -64,12 +71,12 @@ jobs:
 
       - name: 🏷️ Publish GitHub Release with Downloadable APK
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
         with:
-          tag_name: v1.0.0-release
+          tag_name: v1.0.0
           name: VibeVerse Android Release v1.0.0 🌌
           body: |
-            ## 🎉 VibeVerse Mobile App APK
+            ## 🎉 VibeVerse Mobile App APK (Permanent Build)
             Welcome to **VibeVerse** — The fun social app for connecting with like-minded people!
             
             ### ✨ Features Included:
@@ -81,8 +88,10 @@ jobs:
             - 🎤 **Voice Messages**: Record audio using your microphone during chat
             - 💬 **Real-time Messaging**: Direct text messaging with unread tracking
             
-            ### 📥 Download:
-            Download `VibeVerse-Universal.apk` below and install directly on your Android phone!
+            ### 📥 Direct Installation:
+            1. Download `VibeVerse-Universal.apk` below directly onto your Android device.
+            2. Tap the file to install (enable "Install from Unknown Sources" if prompted).
+            3. Enjoy VibeVerse!
           files: release-output/VibeVerse-Universal.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
