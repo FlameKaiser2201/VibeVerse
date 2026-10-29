@@ -60,12 +60,6 @@
           "savePhotosPermission": "VibeVerse needs permission to save photos to your device.",
           "isAccessMediaLocationEnabled": true
         }
-      ],
-      [
-        "expo-av",
-        {
-          "microphonePermission": "VibeVerse needs microphone access for voice messages."
-        }
       ]
     ]
   }
