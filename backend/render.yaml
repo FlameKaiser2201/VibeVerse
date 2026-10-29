@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: vibeverse-api
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "30"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "7"
+      - key: APP_NAME
+        value: VibeVerse
+      - key: DEBUG
+        value: "false"
+      - key: UPLOAD_DIR
+        value: uploads
+      - key: MAX_UPLOAD_SIZE_MB
+        value: "50"
+      - key: BASE_URL
+        sync: false
+    healthCheckPath: /health

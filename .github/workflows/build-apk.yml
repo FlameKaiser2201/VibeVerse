@@ -1,0 +1,88 @@
+name: Build Permanent Android APK 📱
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-android-apk:
+    name: Compile Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ☕ Setup Java Development Kit (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 🟢 Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: mobile/package.json
+
+      - name: 📦 Install Mobile App Dependencies
+        working-directory: ./mobile
+        run: |
+          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+
+      - name: 🛠️ Setup Android SDK & Tools
+        uses: android-actions/setup-android@v3
+
+      - name: 🏗️ Generate Native Android Project
+        working-directory: ./mobile
+        run: |
+          npx expo prebuild --platform android --clean
+
+      - name: 🚀 Build Universal Android APK (Gradle)
+        working-directory: ./mobile/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon || ./gradlew assembleDebug --no-daemon
+
+      - name: 🔍 Locate Built APK
+        id: find_apk
+        run: |
+          APK_PATH=$(find mobile/android/app/build/outputs/apk/ -name "*.apk" | head -n 1)
+          echo "Found APK at: $APK_PATH"
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+          mkdir -p release-output
+          cp "$APK_PATH" release-output/VibeVerse-Universal.apk
+
+      - name: 💾 Upload Permanent Artifact (Direct Download)
+        uses: actions/upload-artifact@v4
+        with:
+          name: VibeVerse-Permanent-APK
+          path: release-output/VibeVerse-Universal.apk
+          retention-days: 90
+
+      - name: 🏷️ Publish GitHub Release with Downloadable APK
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+        with:
+          tag_name: v1.0.0-release
+          name: VibeVerse Android Release v1.0.0 🌌
+          body: |
+            ## 🎉 VibeVerse Mobile App APK
+            Welcome to **VibeVerse** — The fun social app for connecting with like-minded people!
+            
+            ### ✨ Features Included:
+            - 🤝 **Like-Minded Discovery**: Match based on mutual vibe tags (Gaming, Tech, Anime, Music, etc.)
+            - 📸 **Photo Sharing**: Share snaps with custom captions and vibe tags
+            - ✨ **24h Ephemeral Stories**: Instagram-style stories with auto-expiration
+            - 🎬 **Vibe Reels**: Short-form video swiping with music audio tracks
+            - 🎨 **Built-in Camera Filter Effects**: Warm, Cool, Vintage, B&W, Vivid, Dreamy, Neon
+            - 🎤 **Voice Messages**: Record audio using your microphone during chat
+            - 💬 **Real-time Messaging**: Direct text messaging with unread tracking
+            
+            ### 📥 Download:
+            Download `VibeVerse-Universal.apk` below and install directly on your Android phone!
+          files: release-output/VibeVerse-Universal.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

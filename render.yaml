@@ -1,0 +1,33 @@
+# Render Blueprint Specification for VibeVerse
+services:
+  - type: web
+    name: vibeverse-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "30"
+      - key: APP_NAME
+        value: VibeVerse
+      - key: DEBUG
+        value: "false"
+      - key: UPLOAD_DIR
+        value: uploads
+      - key: MAX_UPLOAD_SIZE_MB
+        value: "50"
+      - key: DATABASE_URL
+        sync: false
+        # Can be set to a Render MySQL or external MySQL instance:
+        # mysql+pymysql://<user>:<pass>@<host>:<port>/<dbname>
