@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
-import { Camera } from 'expo-camera';
+import { Camera } from 'expo-camera/legacy';
 import * as ImagePicker from 'expo-image-picker';
 import { requestCameraPermission, requestMediaLibraryPermission } from '../utils/permissions';
 
