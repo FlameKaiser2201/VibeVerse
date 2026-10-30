@@ -1,0 +1,66 @@
+{
+  "expo": {
+    "name": "VibeVerse",
+    "slug": "vibeverse",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0F0F1A"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vibeverse.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "VibeVerse needs camera access to take photos and record videos for posts, stories, and reels.",
+        "NSMicrophoneUsageDescription": "VibeVerse needs microphone access to record audio for voice messages and reels.",
+        "NSPhotoLibraryUsageDescription": "VibeVerse needs photo library access to select photos and videos for your posts."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0F0F1A"
+      },
+      "package": "com.vibeverse.app",
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_MEDIA_IMAGES",
+        "READ_MEDIA_VIDEO",
+        "READ_MEDIA_AUDIO"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "VibeVerse needs camera access to take photos and record videos.",
+          "microphonePermission": "VibeVerse needs microphone access for video recording and voice messages.",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "VibeVerse needs access to your photos to share them in posts and stories.",
+          "cameraPermission": "VibeVerse needs camera access to take new photos."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "VibeVerse needs access to your media library.",
+          "savePhotosPermission": "VibeVerse needs permission to save photos to your device.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ]
+    ]
+  }
+}

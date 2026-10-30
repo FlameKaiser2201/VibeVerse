@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VibeVerse — Where Every Vibe Finds Its Tribe 🌌</title>
+  <link rel="icon" href="https://img.icons8.com/fluency/96/sparkling.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            space: '#0A0A14',
+            surface: '#121224',
+            card: '#1A1A32',
+            border: '#2A2A48',
+            primary: '#00F5D4',
+            secondary: '#7928CA',
+            accent: '#FF007F',
+            gold: '#FFBE0B',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #07070E;
+      color: #F0F2FF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .glow-cyan { box-shadow: 0 0 25px rgba(0, 245, 212, 0.45); }
+    .glow-purple { box-shadow: 0 0 25px rgba(121, 40, 202, 0.45); }
+    .glow-pink { box-shadow: 0 0 25px rgba(255, 0, 127, 0.45); }
+    
+    .story-ring {
+      background: linear-gradient(45deg, #FF007F, #7928CA, #00F5D4, #FFBE0B);
+      background-size: 300% 300%;
+      animation: gradientRing 4s ease infinite;
+    }
+    @keyframes gradientRing {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0A0A14; }
+    ::-webkit-scrollbar-thumb { background: #2A2A48; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00F5D4; }
+
+    /* Filter Classes */
+    .filter-normal { filter: none; }
+    .filter-sunset { filter: sepia(0.6) saturate(1.8) hue-rotate(-20deg) contrast(1.1); }
+    .filter-cyber { filter: contrast(1.25) hue-rotate(180deg) saturate(1.6); }
+    .filter-vintage { filter: sepia(0.8) contrast(1.15) brightness(0.9); }
+    .filter-bw { filter: grayscale(1) contrast(1.4); }
+    .filter-vivid { filter: saturate(2.4) contrast(1.2); }
+    .filter-bloom { filter: brightness(1.15) saturate(1.4) blur(0.4px); }
+    .filter-neon { filter: invert(0.15) saturate(2.2) hue-rotate(90deg); }
+
+    /* Audio wave pulse */
+    .pulse-bar {
+      animation: audioPulse 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes audioPulse {
+      0% { height: 6px; }
+      100% { height: 28px; }
+    }
+  </style>
+</head>
+<body class="flex justify-center min-h-screen">
+
+  <!-- Mobile App Frame Container -->
+  <div class="w-full max-w-md min-h-screen bg-space flex flex-col relative shadow-2xl border-x border-border/50">
+
+    <!-- Top App Bar -->
+    <header class="sticky top-0 z-40 bg-space/90 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-border/60">
+      <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('feed')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-accent to-primary flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-bolt text-space text-lg font-black"></i>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-white to-accent bg-clip-text text-transparent">
+          VibeVerse
+        </span>
+      </div>
+      <div class="flex items-center space-x-3 text-gray-300">
+        <button onclick="switchTab('camera')" class="w-9 h-9 rounded-full bg-card hover:bg-border flex items-center justify-center transition" title="Camera & Filters">
+          <i class="fa-solid fa-camera text-primary"></i>
+        </button>
+        <button onclick="switchTab('chat')" class="w-9 h-9 rounded-full bg-card hover:bg-border flex items-center justify-center relative transition" title="Messages">
+          <i class="fa-solid fa-message text-gray-300"></i>
+          <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-accent rounded-full animate-ping"></span>
+          <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-accent rounded-full"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 pb-24 overflow-y-auto">
+
+      <!-- TAB 1: HOME FEED -->
+      <section id="tab-feed" class="tab-content block">
+        <!-- 24h Instagram-style Stories Tray -->
+        <div class="py-3 px-4 border-b border-border/40 overflow-x-auto">
+          <div class="flex items-center space-x-4 min-w-max">
+            <!-- Add Your Story -->
+            <div class="flex flex-col items-center cursor-pointer group" onclick="switchTab('camera'); setCameraMode('story');">
+              <div class="relative w-16 h-16 rounded-full p-[2px] border-2 border-dashed border-primary/60 flex items-center justify-center transition group-hover:border-primary">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-full h-full rounded-full object-cover">
+                <div class="absolute bottom-0 right-0 w-5 h-5 bg-primary text-space rounded-full flex items-center justify-center text-xs font-bold shadow-md">
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+              </div>
+              <span class="text-[11px] font-medium mt-1 text-gray-300">Your Story</span>
+            </div>
+
+            <!-- Friend Stories -->
+            <div class="flex flex-col items-center cursor-pointer" onclick="openStory(0)">
+              <div class="w-16 h-16 rounded-full p-[2.5px] story-ring">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-full h-full rounded-full object-cover border-2 border-space">
+              </div>
+              <span class="text-[11px] font-medium mt-1 text-gray-300">cyber_sam</span>
+            </div>
+
+            <div class="flex flex-col items-center cursor-pointer" onclick="openStory(1)">
+              <div class="w-16 h-16 rounded-full p-[2.5px] story-ring">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150" class="w-full h-full rounded-full object-cover border-2 border-space">
+              </div>
+              <span class="text-[11px] font-medium mt-1 text-gray-300">neon_lily</span>
+            </div>
+
+            <div class="flex flex-col items-center cursor-pointer" onclick="openStory(2)">
+              <div class="w-16 h-16 rounded-full p-[2.5px] story-ring">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150" class="w-full h-full rounded-full object-cover border-2 border-space">
+              </div>
+              <span class="text-[11px] font-medium mt-1 text-gray-300">pixel_alex</span>
+            </div>
+
+            <div class="flex flex-col items-center cursor-pointer" onclick="openStory(3)">
+              <div class="w-16 h-16 rounded-full p-[2.5px] story-ring">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" class="w-full h-full rounded-full object-cover border-2 border-space">
+              </div>
+              <span class="text-[11px] font-medium mt-1 text-gray-300">aura_maya</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feed Posts Container -->
+        <div id="posts-container" class="divide-y divide-border/40">
+          <!-- Post 1 -->
+          <article class="p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-10 h-10 rounded-full object-cover border border-primary/40">
+                <div>
+                  <div class="flex items-center space-x-1.5">
+                    <span class="font-bold text-sm text-white">cyber_sam</span>
+                    <span class="text-xs text-primary px-1.5 py-0.5 rounded bg-primary/10 font-semibold">96% Match</span>
+                  </div>
+                  <span class="text-[11px] text-gray-400">Tokyo Shibuya • 2h ago</span>
+                </div>
+              </div>
+              <button class="text-gray-400 hover:text-white"><i class="fa-solid fa-ellipsis"></i></button>
+            </div>
+
+            <div class="rounded-2xl overflow-hidden relative group cursor-pointer" ondblclick="toggleLike(this, 142)">
+              <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800" class="w-full h-80 object-cover filter-cyber">
+              <div class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition duration-300 heart-pop">
+                <i class="fa-solid fa-heart text-6xl text-accent drop-shadow-xl"></i>
+              </div>
+              <div class="absolute bottom-2 right-2 bg-space/70 backdrop-blur-md px-2 py-1 rounded-md text-[10px] text-primary flex items-center space-x-1">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Cool Cyber Filter</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-lg text-gray-300 pt-1">
+              <div class="flex items-center space-x-4">
+                <button onclick="toggleLike(this.closest('article'), 142)" class="like-btn flex items-center space-x-1.5 hover:text-accent transition">
+                  <i class="fa-regular fa-heart"></i>
+                  <span class="text-xs font-semibold like-count">142</span>
+                </button>
+                <button onclick="alert('Comment drawer opened!')" class="flex items-center space-x-1.5 hover:text-primary transition">
+                  <i class="fa-regular fa-comment"></i>
+                  <span class="text-xs font-semibold">28</span>
+                </button>
+                <button onclick="sharePost('Check out cyber_sam on VibeVerse!')" class="hover:text-gold transition">
+                  <i class="fa-regular fa-paper-plane"></i>
+                </button>
+              </div>
+              <button class="hover:text-white"><i class="fa-regular fa-bookmark"></i></button>
+            </div>
+
+            <div class="text-xs leading-relaxed space-y-1">
+              <p><span class="font-bold text-white mr-1.5">cyber_sam</span> Midnight coding vibes in Shibuya! Where are my fellow anime & dev night-owls at? 🌌🚀</p>
+              <div class="flex flex-wrap gap-1 pt-1">
+                <span class="text-[11px] text-primary font-medium">#coding</span>
+                <span class="text-[11px] text-accent font-medium">#cyberpunk</span>
+                <span class="text-[11px] text-gold font-medium">#anime</span>
+                <span class="text-[11px] text-purple-400 font-medium">#gaming</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Post 2 -->
+          <article class="p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150" class="w-10 h-10 rounded-full object-cover border border-accent/40">
+                <div>
+                  <div class="flex items-center space-x-1.5">
+                    <span class="font-bold text-sm text-white">neon_lily</span>
+                    <span class="text-xs text-accent px-1.5 py-0.5 rounded bg-accent/10 font-semibold">91% Match</span>
+                  </div>
+                  <span class="text-[11px] text-gray-400">Seoul • 5h ago</span>
+                </div>
+              </div>
+              <button class="text-gray-400 hover:text-white"><i class="fa-solid fa-ellipsis"></i></button>
+            </div>
+
+            <div class="rounded-2xl overflow-hidden relative group cursor-pointer" ondblclick="toggleLike(this, 389)">
+              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800" class="w-full h-80 object-cover filter-sunset">
+              <div class="absolute bottom-2 right-2 bg-space/70 backdrop-blur-md px-2 py-1 rounded-md text-[10px] text-gold flex items-center space-x-1">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Warm Sunset Filter</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-lg text-gray-300 pt-1">
+              <div class="flex items-center space-x-4">
+                <button onclick="toggleLike(this.closest('article'), 389)" class="like-btn flex items-center space-x-1.5 hover:text-accent transition">
+                  <i class="fa-regular fa-heart"></i>
+                  <span class="text-xs font-semibold like-count">389</span>
+                </button>
+                <button onclick="alert('Comment drawer opened!')" class="flex items-center space-x-1.5 hover:text-primary transition">
+                  <i class="fa-regular fa-comment"></i>
+                  <span class="text-xs font-semibold">54</span>
+                </button>
+                <button onclick="sharePost('Check out neon_lily on VibeVerse!')" class="hover:text-gold transition">
+                  <i class="fa-regular fa-paper-plane"></i>
+                </button>
+              </div>
+              <button class="hover:text-white"><i class="fa-regular fa-bookmark"></i></button>
+            </div>
+
+            <div class="text-xs leading-relaxed space-y-1">
+              <p><span class="font-bold text-white mr-1.5">neon_lily</span> Synthesizer chords echoing into the neon twilight. Finding my frequency 🎵✨</p>
+              <div class="flex flex-wrap gap-1 pt-1">
+                <span class="text-[11px] text-gold font-medium">#music</span>
+                <span class="text-[11px] text-primary font-medium">#synthwave</span>
+                <span class="text-[11px] text-accent font-medium">#creatives</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- TAB 2: DISCOVER LIKE-MINDED -->
+      <section id="tab-discover" class="tab-content hidden p-4 space-y-4">
+        <div>
+          <h2 class="text-lg font-black text-white flex items-center space-x-2">
+            <span>Discover Like-Minded</span>
+            <span class="text-xs font-normal text-primary px-2 py-0.5 rounded-full bg-primary/10">Vibe Matching ⚡</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">Connect with people who share your passion & vibe.</p>
+        </div>
+
+        <!-- Interest Tags Filter -->
+        <div class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs">
+          <button class="px-3 py-1.5 rounded-full bg-primary text-space font-bold">All Vibes</button>
+          <button class="px-3 py-1.5 rounded-full bg-card hover:bg-border text-gray-300">#Gaming</button>
+          <button class="px-3 py-1.5 rounded-full bg-card hover:bg-border text-gray-300">#Anime</button>
+          <button class="px-3 py-1.5 rounded-full bg-card hover:bg-border text-gray-300">#Coding</button>
+          <button class="px-3 py-1.5 rounded-full bg-card hover:bg-border text-gray-300">#Music</button>
+          <button class="px-3 py-1.5 rounded-full bg-card hover:bg-border text-gray-300">#Photography</button>
+        </div>
+
+        <!-- Creator Discovery List -->
+        <div class="space-y-3">
+          <!-- Match 1 -->
+          <div class="bg-card p-3.5 rounded-2xl border border-border/60 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-12 h-12 rounded-full object-cover">
+                <span class="absolute -bottom-1 -right-1 text-[10px] bg-primary text-space px-1 font-extrabold rounded-full">98%</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">Elena Vance</h4>
+                <p class="text-xs text-gray-400">@elena_cyber • 4.2k followers</p>
+                <div class="flex items-center space-x-1.5 mt-1">
+                  <span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded font-semibold">#coding</span>
+                  <span class="text-[10px] text-accent bg-accent/10 px-1.5 py-0.5 rounded font-semibold">#anime</span>
+                  <span class="text-[10px] text-gold bg-gold/10 px-1.5 py-0.5 rounded font-semibold">#gaming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="toggleConnect(this)" class="px-3.5 py-1.5 rounded-full bg-primary hover:bg-primary/90 text-space text-xs font-bold transition shadow-sm">
+              Connect
+            </button>
+          </div>
+
+          <!-- Match 2 -->
+          <div class="bg-card p-3.5 rounded-2xl border border-border/60 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150" class="w-12 h-12 rounded-full object-cover">
+                <span class="absolute -bottom-1 -right-1 text-[10px] bg-accent text-white px-1 font-extrabold rounded-full">94%</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">Kai Ren</h4>
+                <p class="text-xs text-gray-400">@kaidev • 1.8k followers</p>
+                <div class="flex items-center space-x-1.5 mt-1">
+                  <span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded font-semibold">#ai</span>
+                  <span class="text-[10px] text-accent bg-accent/10 px-1.5 py-0.5 rounded font-semibold">#crypto</span>
+                  <span class="text-[10px] text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded font-semibold">#gaming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="toggleConnect(this)" class="px-3.5 py-1.5 rounded-full bg-primary hover:bg-primary/90 text-space text-xs font-bold transition shadow-sm">
+              Connect
+            </button>
+          </div>
+
+          <!-- Match 3 -->
+          <div class="bg-card p-3.5 rounded-2xl border border-border/60 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150" class="w-12 h-12 rounded-full object-cover">
+                <span class="absolute -bottom-1 -right-1 text-[10px] bg-gold text-space px-1 font-extrabold rounded-full">89%</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">Sarah Jenkins</h4>
+                <p class="text-xs text-gray-400">@sarah_snap • 6.1k followers</p>
+                <div class="flex items-center space-x-1.5 mt-1">
+                  <span class="text-[10px] text-gold bg-gold/10 px-1.5 py-0.5 rounded font-semibold">#photography</span>
+                  <span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded font-semibold">#travel</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="toggleConnect(this)" class="px-3.5 py-1.5 rounded-full bg-primary hover:bg-primary/90 text-space text-xs font-bold transition shadow-sm">
+              Connect
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: CAMERA STUDIO & FILTER EFFECTS -->
+      <section id="tab-camera" class="tab-content hidden h-full p-4 flex flex-col space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+            <h2 class="text-base font-extrabold text-white">Camera Filter Studio 🎨</h2>
+          </div>
+          <span id="filter-name-badge" class="text-xs px-2.5 py-1 rounded-full bg-primary/20 text-primary font-bold">
+            ✨ Normal
+          </span>
+        </div>
+
+        <!-- Camera Viewfinder -->
+        <div class="relative w-full h-80 rounded-3xl overflow-hidden bg-black border border-border/80 flex items-center justify-center shadow-inner group">
+          <!-- Real Webcam Video Element -->
+          <video id="webcam" autoplay playsinline muted class="w-full h-full object-cover filter-normal"></video>
+
+          <!-- Fallback Simulated Viewfinder if Camera Disabled -->
+          <div id="simulated-viewfinder" class="absolute inset-0 bg-gradient-to-tr from-purple-900/60 via-slate-900 to-emerald-950/60 flex flex-col items-center justify-center p-6 text-center space-y-3 hidden">
+            <i class="fa-solid fa-camera text-4xl text-primary/70 animate-bounce"></i>
+            <div>
+              <p class="text-sm font-bold text-white">Live Camera Active</p>
+              <p class="text-xs text-gray-400 mt-1">Webcam permission accessed or simulated preview running.</p>
+            </div>
+            <button onclick="requestCameraAccess()" class="px-4 py-1.5 rounded-full bg-primary text-space text-xs font-bold glow-cyan">
+              Enable Webcam Access
+            </button>
+          </div>
+
+          <!-- Mode Badge (Post, Story, Reel) -->
+          <div class="absolute top-3 left-3 bg-space/70 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-bold text-white border border-white/10">
+            <span id="camera-mode-label">📸 Photo Post</span>
+          </div>
+
+          <!-- Flip / Flash Buttons -->
+          <div class="absolute top-3 right-3 flex flex-col space-y-2">
+            <button onclick="toggleTorch()" class="w-8 h-8 rounded-full bg-space/70 backdrop-blur-md flex items-center justify-center text-white text-xs hover:text-gold transition">
+              <i class="fa-solid fa-bolt"></i>
+            </button>
+            <button onclick="requestCameraAccess()" class="w-8 h-8 rounded-full bg-space/70 backdrop-blur-md flex items-center justify-center text-white text-xs hover:text-primary transition" title="Refresh Camera">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 8 Live Filter Carousel -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Live Filter Effects</label>
+          <div class="flex items-center space-x-2.5 overflow-x-auto py-1">
+            <button onclick="applyFilter('normal', '✨ Normal')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gray-700 border-2 border-primary flex items-center justify-center text-xs">✨</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Normal</span>
+            </button>
+            <button onclick="applyFilter('sunset', '🌅 Warm Sunset')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-400 border border-white/20 flex items-center justify-center text-xs">🌅</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Sunset</span>
+            </button>
+            <button onclick="applyFilter('cyber', '🏙️ Cyberpunk')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-400 to-fuchsia-600 border border-white/20 flex items-center justify-center text-xs">🏙️</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Cyber</span>
+            </button>
+            <button onclick="applyFilter('vintage', '🎞️ Vintage Film')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-800 to-yellow-600 border border-white/20 flex items-center justify-center text-xs">🎞️</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Vintage</span>
+            </button>
+            <button onclick="applyFilter('bw', '🖤 B&W Glam')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-gray-800 to-gray-400 border border-white/20 flex items-center justify-center text-xs">🖤</div>
+              <span class="text-[10px] text-gray-300 font-semibold">B&W</span>
+            </button>
+            <button onclick="applyFilter('vivid', '🌺 Vivid Pop')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-rose-500 to-emerald-400 border border-white/20 flex items-center justify-center text-xs">🌺</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Vivid</span>
+            </button>
+            <button onclick="applyFilter('neon', '⚡ Neon Glow')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-lime-400 to-violet-600 border border-white/20 flex items-center justify-center text-xs">⚡</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Neon</span>
+            </button>
+            <button onclick="applyFilter('bloom', '🔮 Dreamy Bloom')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-300 border border-white/20 flex items-center justify-center text-xs">🔮</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Bloom</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mode Select Tabs -->
+        <div class="flex items-center justify-center space-x-6 text-xs font-bold text-gray-400">
+          <button onclick="setCameraMode('post')" id="mode-post-btn" class="text-primary border-b-2 border-primary pb-1">POST</button>
+          <button onclick="setCameraMode('story')" id="mode-story-btn" class="hover:text-white pb-1">24H STORY</button>
+          <button onclick="setCameraMode('reel')" id="mode-reel-btn" class="hover:text-white pb-1">REEL</button>
+        </div>
+
+        <!-- Capture Trigger Button -->
+        <div class="flex items-center justify-center pt-2">
+          <button onclick="takeSnapshot()" class="w-16 h-16 rounded-full border-4 border-white/80 p-1 flex items-center justify-center hover:scale-105 active:scale-95 transition glow-cyan">
+            <div class="w-full h-full bg-primary rounded-full flex items-center justify-center shadow-lg">
+              <i class="fa-solid fa-camera text-space text-lg"></i>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 4: VIBE REELS -->
+      <section id="tab-reels" class="tab-content hidden h-[80vh] relative overflow-hidden bg-black rounded-b-3xl">
+        <video id="reel-video" loop autoplay playsinline class="w-full h-full object-cover" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"></video>
+
+        <!-- Overlay Details -->
+        <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end justify-between">
+          <div class="space-y-2 max-w-[75%]">
+            <div class="flex items-center space-x-2">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-9 h-9 rounded-full border border-primary object-cover">
+              <span class="font-bold text-sm text-white">@cyber_sam</span>
+              <button onclick="toggleConnect(this)" class="px-2 py-0.5 rounded-full bg-primary text-space text-[10px] font-bold">Follow</button>
+            </div>
+            <p class="text-xs text-gray-200">Late night cyberpunk aesthetics coding in Tokyo 🏙️⚡ #reels #vibeverse #anime</p>
+            <div class="flex items-center space-x-1.5 text-xs text-primary font-medium">
+              <i class="fa-solid fa-music animate-spin text-[10px]"></i>
+              <marquee class="w-40 text-[11px]">Original Audio - VibeVerse Synth Beats 🎵</marquee>
+            </div>
+          </div>
+
+          <!-- Reel Action Buttons -->
+          <div class="flex flex-col items-center space-y-4 text-white">
+            <button onclick="toggleReelLike(this)" class="flex flex-col items-center space-y-1 group">
+              <div class="w-10 h-10 rounded-full bg-space/60 backdrop-blur-md flex items-center justify-center text-lg group-hover:text-accent transition">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <span class="text-[11px] font-bold">8.4k</span>
+            </button>
+            <button onclick="alert('Comments drawer opened!')" class="flex flex-col items-center space-y-1">
+              <div class="w-10 h-10 rounded-full bg-space/60 backdrop-blur-md flex items-center justify-center text-lg hover:text-primary transition">
+                <i class="fa-solid fa-comment-dots"></i>
+              </div>
+              <span class="text-[11px] font-bold">492</span>
+            </button>
+            <button onclick="sharePost('Check out this Vibe Reel!')" class="flex flex-col items-center space-y-1">
+              <div class="w-10 h-10 rounded-full bg-space/60 backdrop-blur-md flex items-center justify-center text-lg hover:text-gold transition">
+                <i class="fa-solid fa-share-nodes"></i>
+              </div>
+              <span class="text-[11px] font-bold">Share</span>
+            </button>
+            <button onclick="toggleReelSound()" id="reel-mute-btn" class="w-10 h-10 rounded-full bg-space/60 backdrop-blur-md flex items-center justify-center text-sm text-primary">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: CHAT WITH MICROPHONE VOICE NOTES -->
+      <section id="tab-chat" class="tab-content hidden h-[80vh] flex flex-col p-4">
+        <!-- Chat Header -->
+        <div class="pb-3 border-b border-border/60 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-10 h-10 rounded-full object-cover border border-primary/50">
+              <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full border border-space"></span>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-white">cyber_sam</h3>
+              <p class="text-[10px] text-primary font-semibold">Online • 96% Match</p>
+            </div>
+          </div>
+          <button onclick="alert('Calling voice room...')"><i class="fa-solid fa-phone text-gray-400 hover:text-primary text-sm"></i></button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto py-4 space-y-3">
+          <!-- Incoming Text -->
+          <div class="flex items-start space-x-2">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-7 h-7 rounded-full object-cover">
+            <div class="bg-card text-xs text-gray-200 px-3.5 py-2.5 rounded-2xl rounded-tl-none max-w-[80%] border border-border/60">
+              Hey! I saw we matched on #coding and #anime. Have you tried recording with the new filter effects yet? ⚡
+            </div>
+          </div>
+
+          <!-- Outgoing Text -->
+          <div class="flex items-end justify-end space-x-2">
+            <div class="bg-primary text-space text-xs font-semibold px-3.5 py-2.5 rounded-2xl rounded-tr-none max-w-[80%] shadow-md">
+              Yeah! Just tried the Cool Cyberpunk filter, it looks epic! Check out this voice note:
+            </div>
+          </div>
+
+          <!-- Incoming Voice Note Message -->
+          <div class="flex items-start space-x-2">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-7 h-7 rounded-full object-cover">
+            <div class="bg-card px-3.5 py-2 rounded-2xl rounded-tl-none border border-border/80 flex items-center space-x-3 w-64 shadow-md">
+              <button onclick="toggleVoicePlayback(this)" class="w-8 h-8 rounded-full bg-primary text-space flex items-center justify-center font-bold text-xs shrink-0">
+                <i class="fa-solid fa-play"></i>
+              </button>
+              <div class="flex-1 space-y-1">
+                <div class="flex items-center space-x-1 h-4">
+                  <div class="w-1 bg-primary/70 h-2 rounded-full"></div>
+                  <div class="w-1 bg-primary/70 h-3 rounded-full"></div>
+                  <div class="w-1 bg-primary h-4 rounded-full"></div>
+                  <div class="w-1 bg-primary/70 h-2 rounded-full"></div>
+                  <div class="w-1 bg-primary h-3.5 rounded-full"></div>
+                  <div class="w-1 bg-primary/70 h-1.5 rounded-full"></div>
+                  <div class="w-1 bg-primary/70 h-3 rounded-full"></div>
+                  <div class="w-1 bg-primary h-4 rounded-full"></div>
+                  <div class="w-1 bg-primary/70 h-2 rounded-full"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-gray-400 font-medium">
+                  <span>Voice Note</span>
+                  <span>0:14</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voice Recording Live Bar (When recording) -->
+        <div id="recording-bar" class="hidden bg-card/90 backdrop-blur-md p-3 rounded-2xl border border-accent/60 mb-2 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <span class="w-3 h-3 rounded-full bg-accent animate-ping"></span>
+            <div class="flex items-center space-x-1 h-5">
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.1s"></div>
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.3s"></div>
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.2s"></div>
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.5s"></div>
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.4s"></div>
+            </div>
+            <span id="recording-timer" class="text-xs font-mono font-bold text-accent">00:04</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="cancelVoiceRecording()" class="text-xs text-gray-400 hover:text-white px-2 py-1">Cancel</button>
+            <button onclick="sendVoiceRecording()" class="text-xs bg-accent text-white px-3 py-1 rounded-full font-bold glow-pink">Send Voice 🎙️</button>
+          </div>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="flex items-center space-x-2 pt-2">
+          <input id="chat-input" type="text" placeholder="Send a message or record audio..." class="flex-1 bg-card border border-border/80 text-xs text-white rounded-full px-4 py-2.5 focus:outline-none focus:border-primary transition" onkeypress="if(event.key==='Enter') sendChatMessage()">
+          
+          <!-- Microphone Voice Button -->
+          <button id="mic-btn" onclick="startVoiceRecording()" class="w-10 h-10 rounded-full bg-card hover:bg-border text-primary border border-primary/40 flex items-center justify-center text-sm transition active:scale-95 glow-cyan" title="Record Voice Note">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+          
+          <!-- Send Text Button -->
+          <button onclick="sendChatMessage()" class="w-10 h-10 rounded-full bg-primary text-space flex items-center justify-center text-sm font-bold transition hover:scale-105 active:scale-95 shadow-md">
+            <i class="fa-solid fa-arrow-up"></i>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 max-w-md w-full bg-space/95 backdrop-blur-xl border-t border-border/80 px-4 py-2.5 flex items-center justify-between z-40">
+      <button onclick="switchTab('feed')" id="nav-feed" class="flex flex-col items-center space-y-1 text-primary">
+        <i class="fa-solid fa-house text-lg"></i>
+        <span class="text-[10px] font-bold">Feed</span>
+      </button>
+
+      <button onclick="switchTab('discover')" id="nav-discover" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white">
+        <i class="fa-solid fa-compass text-lg"></i>
+        <span class="text-[10px] font-bold">Discover</span>
+      </button>
+
+      <!-- Center Plus Action -->
+      <button onclick="switchTab('camera')" class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-space text-xl shadow-lg -mt-5 hover:scale-110 transition active:scale-95 glow-cyan">
+        <i class="fa-solid fa-plus font-black"></i>
+      </button>
+
+      <button onclick="switchTab('reels')" id="nav-reels" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white">
+        <i class="fa-solid fa-play text-lg"></i>
+        <span class="text-[10px] font-bold">Reels</span>
+      </button>
+
+      <button onclick="switchTab('chat')" id="nav-chat" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white">
+        <i class="fa-solid fa-comment-dots text-lg"></i>
+        <span class="text-[10px] font-bold">Chat</span>
+      </button>
+    </nav>
+
+    <!-- Fullscreen 24h Story Viewer Modal -->
+    <div id="story-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden flex flex-col justify-between p-4 max-w-md mx-auto">
+      <div class="space-y-3">
+        <!-- Progress Bar -->
+        <div class="w-full bg-white/20 h-1 rounded-full overflow-hidden">
+          <div id="story-progress" class="bg-primary h-full w-0 transition-all duration-100 ease-linear"></div>
+        </div>
+        <!-- User Info -->
+        <div class="flex items-center justify-between text-white">
+          <div class="flex items-center space-x-2.5">
+            <img id="story-avatar" src="" class="w-9 h-9 rounded-full border border-primary object-cover">
+            <div>
+              <p id="story-username" class="text-xs font-bold"></p>
+              <p class="text-[10px] text-gray-400">Shared 3h ago • Disappears in 21h</p>
+            </div>
+          </div>
+          <button onclick="closeStory()" class="text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <!-- Story Media -->
+      <div class="my-auto flex items-center justify-center rounded-2xl overflow-hidden h-[70vh]">
+        <img id="story-image" src="" class="w-full h-full object-cover rounded-2xl">
+      </div>
+
+      <!-- Story Reaction Bar -->
+      <div class="flex items-center space-x-2 pt-2">
+        <input type="text" placeholder="Send a quick reply..." class="flex-1 bg-white/10 text-xs text-white rounded-full px-4 py-2 border border-white/20 focus:outline-none">
+        <button onclick="alert('Liked story! ❤️')" class="text-accent text-xl"><i class="fa-solid fa-heart"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    // Tab Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      // Update Nav Icon colors
+      const navIds = ['feed', 'discover', 'reels', 'chat'];
+      navIds.forEach(id => {
+        const btn = document.getElementById('nav-' + id);
+        if (btn) {
+          if (id === tabId) {
+            btn.className = 'flex flex-col items-center space-y-1 text-primary';
+          } else {
+            btn.className = 'flex flex-col items-center space-y-1 text-gray-400 hover:text-white';
+          }
+        }
+      });
+
+      if (tabId === 'camera') {
+        initCamera();
+      }
+    }
+
+    // Camera Access & Live Filters
+    let webcamStream = null;
+    let currentFilter = 'normal';
+
+    async function initCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        webcamStream = stream;
+        const video = document.getElementById('webcam');
+        video.srcObject = stream;
+        video.play();
+        document.getElementById('simulated-viewfinder').classList.add('hidden');
+      } catch (err) {
+        console.warn('Webcam permission not granted or device unavailable; showing simulated viewfinder.', err);
+        document.getElementById('simulated-viewfinder').classList.remove('hidden');
+      }
+    }
+
+    function applyFilter(filterClass, filterName) {
+      currentFilter = filterClass;
+      const video = document.getElementById('webcam');
+      video.className = 'w-full h-full object-cover filter-' + filterClass;
+      document.getElementById('filter-name-badge').textContent = filterName;
+    }
+
+    function setCameraMode(mode) {
+      const label = document.getElementById('camera-mode-label');
+      if (mode === 'post') label.textContent = '📸 Photo Post';
+      if (mode === 'story') label.textContent = '✨ 24h Ephemeral Story';
+      if (mode === 'reel') label.textContent = '🎬 Vibe Reel';
+
+      ['post', 'story', 'reel'].forEach(m => {
+        const btn = document.getElementById(`mode-${m}-btn`);
+        if (btn) {
+          if (m === mode) {
+            btn.className = 'text-primary border-b-2 border-primary pb-1';
+          } else {
+            btn.className = 'hover:text-white pb-1';
+          }
+        }
+      });
+    }
+
+    function takeSnapshot() {
+      alert(`🎉 Snapshot captured with ${currentFilter.toUpperCase()} filter effect! Published to VibeVerse!`);
+      switchTab('feed');
+    }
+
+    // Likes & Connections
+    function toggleLike(el, count) {
+      const btn = el.querySelector('.like-btn i') || el.querySelector('i');
+      const countSpan = el.querySelector('.like-count');
+      if (btn.classList.contains('fa-regular')) {
+        btn.classList.remove('fa-regular');
+        btn.classList.add('fa-solid', 'text-accent');
+        if (countSpan) countSpan.textContent = parseInt(countSpan.textContent) + 1;
+      } else {
+        btn.classList.remove('fa-solid', 'text-accent');
+        btn.classList.add('fa-regular');
+        if (countSpan) countSpan.textContent = parseInt(countSpan.textContent) - 1;
+      }
+    }
+
+    function toggleConnect(btn) {
+      if (btn.textContent.trim() === 'Connect' || btn.textContent.trim() === 'Follow') {
+        btn.textContent = 'Connected ✓';
+        btn.className = 'px-3 py-1.5 rounded-full bg-border text-gray-300 text-xs font-semibold';
+      } else {
+        btn.textContent = 'Connect';
+        btn.className = 'px-3.5 py-1.5 rounded-full bg-primary text-space text-xs font-bold';
+      }
+    }
+
+    // 24h Story Viewer
+    const storiesData = [
+      { user: 'cyber_sam', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', img: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800' },
+      { user: 'neon_lily', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150', img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800' },
+      { user: 'pixel_alex', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150', img: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800' },
+      { user: 'aura_maya', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800' }
+    ];
+
+    let storyTimer = null;
+    function openStory(index) {
+      const story = storiesData[index];
+      document.getElementById('story-username').textContent = story.user;
+      document.getElementById('story-avatar').src = story.avatar;
+      document.getElementById('story-image').src = story.img;
+      document.getElementById('story-modal').classList.remove('hidden');
+
+      const progressBar = document.getElementById('story-progress');
+      progressBar.style.width = '0%';
+      let progress = 0;
+      clearInterval(storyTimer);
+      storyTimer = setInterval(() => {
+        progress += 2;
+        progressBar.style.width = progress + '%';
+        if (progress >= 100) {
+          clearInterval(storyTimer);
+          closeStory();
+        }
+      }, 100);
+    }
+
+    function closeStory() {
+      clearInterval(storyTimer);
+      document.getElementById('story-modal').classList.add('hidden');
+    }
+
+    // Microphone Audio Voice Notes
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordInterval = null;
+    let recordSeconds = 0;
+
+    async function startVoiceRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.start();
+
+        document.getElementById('recording-bar').classList.remove('hidden');
+        recordSeconds = 0;
+        recordInterval = setInterval(() => {
+          recordSeconds++;
+          const mins = String(Math.floor(recordSeconds / 60)).padStart(2, '0');
+          const secs = String(recordSeconds % 60).padStart(2, '0');
+          document.getElementById('recording-timer').textContent = `${mins}:${secs}`;
+        }, 1000);
+      } catch (err) {
+        // Fallback simulation if browser blocks mic permission
+        document.getElementById('recording-bar').classList.remove('hidden');
+        recordSeconds = 0;
+        recordInterval = setInterval(() => {
+          recordSeconds++;
+          const mins = String(Math.floor(recordSeconds / 60)).padStart(2, '0');
+          const secs = String(recordSeconds % 60).padStart(2, '0');
+          document.getElementById('recording-timer').textContent = `${mins}:${secs}`;
+        }, 1000);
+      }
+    }
+
+    function cancelVoiceRecording() {
+      clearInterval(recordInterval);
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+      document.getElementById('recording-bar').classList.add('hidden');
+    }
+
+    function sendVoiceRecording() {
+      clearInterval(recordInterval);
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+      document.getElementById('recording-bar').classList.add('hidden');
+
+      const chatContainer = document.getElementById('chat-messages');
+      const voiceHtml = `
+        <div class="flex items-end justify-end space-x-2">
+          <div class="bg-card px-3.5 py-2 rounded-2xl rounded-tr-none border border-primary/50 flex items-center space-x-3 w-64 shadow-md">
+            <button onclick="toggleVoicePlayback(this)" class="w-8 h-8 rounded-full bg-primary text-space flex items-center justify-center font-bold text-xs shrink-0">
+              <i class="fa-solid fa-play"></i>
+            </button>
+            <div class="flex-1 space-y-1">
+              <div class="flex items-center space-x-1 h-4">
+                <div class="w-1 bg-primary h-2 rounded-full"></div>
+                <div class="w-1 bg-primary h-4 rounded-full"></div>
+                <div class="w-1 bg-primary h-3 rounded-full"></div>
+                <div class="w-1 bg-primary h-5 rounded-full"></div>
+                <div class="w-1 bg-primary h-2 rounded-full"></div>
+                <div class="w-1 bg-primary h-4 rounded-full"></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-gray-400 font-medium">
+                <span>Voice Note</span>
+                <span>0:0${recordSeconds || 4}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      chatContainer.insertAdjacentHTML('beforeend', voiceHtml);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatContainer = document.getElementById('chat-messages');
+      const msgHtml = `
+        <div class="flex items-end justify-end space-x-2">
+          <div class="bg-primary text-space text-xs font-semibold px-3.5 py-2.5 rounded-2xl rounded-tr-none max-w-[80%] shadow-md">
+            ${text}
+          </div>
+        </div>
+      `;
+      chatContainer.insertAdjacentHTML('beforeend', msgHtml);
+      input.value = '';
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      // Friendly auto response
+      setTimeout(() => {
+        const replyHtml = `
+          <div class="flex items-start space-x-2">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-7 h-7 rounded-full object-cover">
+            <div class="bg-card text-xs text-gray-200 px-3.5 py-2.5 rounded-2xl rounded-tl-none max-w-[80%] border border-border/60">
+              Awesome vibe! Let's connect on VibeVerse 🚀✨
+            </div>
+          </div>
+        `;
+        chatContainer.insertAdjacentHTML('beforeend', replyHtml);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }, 1000);
+    }
+
+    function toggleVoicePlayback(btn) {
+      const icon = btn.querySelector('i');
+      if (icon.classList.contains('fa-play')) {
+        icon.classList.remove('fa-play');
+        icon.classList.add('fa-pause');
+        setTimeout(() => {
+          icon.classList.remove('fa-pause');
+          icon.classList.add('fa-play');
+        }, 3000);
+      } else {
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+      }
+    }
+
+    function toggleReelSound() {
+      const video = document.getElementById('reel-video');
+      const btn = document.getElementById('reel-mute-btn');
+      video.muted = !video.muted;
+      btn.innerHTML = video.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+    }
+
+    function toggleReelLike(btn) {
+      const heart = btn.querySelector('i');
+      heart.classList.toggle('text-accent');
+    }
+
+    function sharePost(text) {
+      if (navigator.share) {
+        navigator.share({ title: 'VibeVerse', text: text, url: window.location.href });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('🔗 VibeVerse link copied to clipboard!');
+      }
+    }
+  </script>
+</body>
+</html>
