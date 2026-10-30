@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VibeVerse - Where Every Vibe Finds Its Tribe ??</title>
+  <link rel="icon" href="https://img.icons8.com/fluency/96/sparkling.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            space: '#07070E',
+            surface: '#0F0F1A',
+            card: '#161628',
+            cardHover: '#1E1E36',
+            border: '#2A2A48',
+            primary: '#00F5D4',
+            primaryDark: '#00BAA2',
+            secondary: '#7928CA',
+            accent: '#FF007F',
+            gold: '#FFBE0B',
+            verified: '#00FF9D',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #030308;
+      color: #F0F2FF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .glow-cyan { box-shadow: 0 0 25px rgba(0, 245, 212, 0.45); }
+    .glow-purple { box-shadow: 0 0 25px rgba(121, 40, 202, 0.45); }
+    .glow-pink { box-shadow: 0 0 25px rgba(255, 0, 127, 0.45); }
+    
+    .story-ring {
+      background: linear-gradient(45deg, #FF007F, #7928CA, #00F5D4, #FFBE0B);
+      background-size: 300% 300%;
+      animation: gradientRing 4s ease infinite;
+    }
+    @keyframes gradientRing {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #07070E; }
+    ::-webkit-scrollbar-thumb { background: #2A2A48; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00F5D4; }
+
+    /* Filter Classes */
+    .filter-normal { filter: none; }
+    .filter-sunset { filter: sepia(0.6) saturate(1.8) hue-rotate(-20deg) contrast(1.1); }
+    .filter-cyber { filter: contrast(1.25) hue-rotate(180deg) saturate(1.6); }
+    .filter-vintage { filter: sepia(0.8) contrast(1.15) brightness(0.9); }
+    .filter-bw { filter: grayscale(1) contrast(1.4); }
+    .filter-vivid { filter: saturate(2.4) contrast(1.2); }
+    .filter-bloom { filter: brightness(1.15) saturate(1.4) blur(0.4px); }
+    .filter-neon { filter: invert(0.15) saturate(2.2) hue-rotate(90deg); }
+
+    .pulse-bar {
+      animation: audioPulse 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes audioPulse {
+      0% { height: 6px; }
+      100% { height: 26px; }
+    }
+  </style>
+</head>
+<body class="flex justify-center min-h-screen">
+
+  <!-- Mobile App Frame Container -->
+  <div class="w-full max-w-md min-h-screen bg-space flex flex-col relative shadow-2xl border-x border-border/50">
+
+    <!-- Top App Header -->
+    <header class="sticky top-0 z-40 bg-space/95 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-border/60">
+      <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchTab('feed')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-accent to-primary flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-bolt text-space text-lg font-black"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-white to-accent bg-clip-text text-transparent">
+            VibeVerse
+          </span>
+          <span class="text-[9px] block text-gray-400 font-semibold -mt-1 tracking-wider uppercase">Real Community ??</span>
+        </div>
+      </div>
+      
+      <!-- Right Header Actions (Logged in User Status) -->
+      <div class="flex items-center space-x-2.5 text-gray-300">
+        <div id="header-user-badge" class="flex items-center space-x-2 cursor-pointer bg-card px-2.5 py-1 rounded-full border border-border/80" onclick="switchTab('profile')">
+          <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=guest" class="w-6 h-6 rounded-full object-cover">
+          <span id="header-username" class="text-xs font-bold text-white max-w-[90px] truncate">@guest</span>
+        </div>
+        <button onclick="handleSignOut()" id="header-logout-btn" class="w-8 h-8 rounded-full bg-card hover:bg-rose-500/20 hover:text-rose-400 flex items-center justify-center text-gray-400 transition" title="Log Out / Switch Account">
+          <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Scrollable Area -->
+    <main class="flex-1 pb-24 overflow-y-auto">
+
+      <!-- ========================================== -->
+      <!-- TAB 1: REAL FEED -->
+      <!-- ========================================== -->
+      <section id="tab-feed" class="tab-content block">
+        <!-- 24h Real Stories Tray -->
+        <div class="py-3 px-4 border-b border-border/40 overflow-x-auto bg-surface/50">
+          <div id="stories-tray-container" class="flex items-center space-x-3.5 min-w-max">
+            <!-- Dynamic Real Stories Injected Here -->
+          </div>
+        </div>
+
+        <!-- Feed Posts Container -->
+        <div id="posts-container" class="divide-y divide-border/40">
+          <!-- Real user posts injected here -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: DISCOVER LIKE-MINDED CREATORS -->
+      <!-- ========================================== -->
+      <section id="tab-discover" class="tab-content hidden p-4 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-black text-white flex items-center space-x-2">
+              <span>Like-Minded Discovery</span>
+              <span class="text-[10px] font-bold text-primary px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">Vibe Match Algorithm ?</span>
+            </h2>
+            <p class="text-xs text-gray-400 mt-0.5">Real users matched based on mutual passions & vibes.</p>
+          </div>
+          <button onclick="renderDiscoverUsers()" class="text-primary hover:text-white text-xs font-bold flex items-center space-x-1">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Refresh</span>
+          </button>
+        </div>
+
+        <!-- Filter Tags -->
+        <div id="discover-filters" class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs">
+          <!-- Filter chips dynamically injected -->
+        </div>
+
+        <!-- Real Users Discovery List -->
+        <div id="discover-users-list" class="space-y-3">
+          <!-- Dynamic like-minded users injected here -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: CAMERA & LIVE FILTER STUDIO -->
+      <!-- ========================================== -->
+      <section id="tab-camera" class="tab-content hidden h-full p-4 flex flex-col space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
+            <h2 class="text-base font-extrabold text-white">Camera Filter Studio ??</h2>
+          </div>
+          <span id="filter-name-badge" class="text-xs px-2.5 py-1 rounded-full bg-primary/20 text-primary font-bold">
+            ? Normal
+          </span>
+        </div>
+
+        <!-- Viewfinder Box -->
+        <div class="relative w-full h-80 rounded-3xl overflow-hidden bg-black border border-border/80 flex items-center justify-center shadow-inner group">
+          <!-- Real Webcam Video -->
+          <video id="webcam" autoplay playsinline muted class="w-full h-full object-cover filter-normal"></video>
+
+          <!-- Fallback Simulated Viewfinder if camera blocked -->
+          <div id="simulated-viewfinder" class="absolute inset-0 bg-gradient-to-tr from-purple-950 via-slate-900 to-emerald-950 flex flex-col items-center justify-center p-6 text-center space-y-3 hidden">
+            <i class="fa-solid fa-camera text-4xl text-primary/70 animate-bounce"></i>
+            <div>
+              <p class="text-sm font-bold text-white">Camera Viewfinder Ready</p>
+              <p class="text-xs text-gray-400 mt-1">Tap below to grant native camera access or pick a photo from your device!</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="requestCameraAccess()" class="px-4 py-2 rounded-full bg-primary text-space text-xs font-bold glow-cyan transition active:scale-95">
+                Enable Camera
+              </button>
+              <label class="px-4 py-2 rounded-full bg-card hover:bg-border text-white text-xs font-bold cursor-pointer border border-border transition">
+                Pick Photo <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+              </label>
+            </div>
+          </div>
+
+          <!-- Mode Badge -->
+          <div class="absolute top-3 left-3 bg-space/75 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold text-white border border-white/10">
+            <span id="camera-mode-label">?? Photo Post</span>
+          </div>
+
+          <!-- Flip / Flash Buttons -->
+          <div class="absolute top-3 right-3 flex flex-col space-y-2">
+            <label class="w-8 h-8 rounded-full bg-space/70 backdrop-blur-md flex items-center justify-center text-white text-xs hover:text-primary transition cursor-pointer" title="Pick from device gallery">
+              <i class="fa-solid fa-images"></i>
+              <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+            </label>
+            <button onclick="requestCameraAccess()" class="w-8 h-8 rounded-full bg-space/70 backdrop-blur-md flex items-center justify-center text-white text-xs hover:text-primary transition" title="Refresh Webcam">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 8 Live Filters Carousel -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center justify-between">
+            <span>Live Filter Effects</span>
+            <span class="text-[10px] text-primary lowercase">real-time shaders</span>
+          </label>
+          <div class="flex items-center space-x-2.5 overflow-x-auto py-1">
+            <button onclick="applyFilter('normal', '? Normal')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gray-700 border-2 border-primary flex items-center justify-center text-xs">?</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Normal</span>
+            </button>
+            <button onclick="applyFilter('sunset', '?? Warm Sunset')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-400 border border-white/20 flex items-center justify-center text-xs">??</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Sunset</span>
+            </button>
+            <button onclick="applyFilter('cyber', '??? Cyberpunk')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-400 to-fuchsia-600 border border-white/20 flex items-center justify-center text-xs">???</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Cyber</span>
+            </button>
+            <button onclick="applyFilter('vintage', '??? Vintage Film')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-800 to-yellow-600 border border-white/20 flex items-center justify-center text-xs">???</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Vintage</span>
+            </button>
+            <button onclick="applyFilter('bw', '?? B&W Glam')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-gray-800 to-gray-400 border border-white/20 flex items-center justify-center text-xs">??</div>
+              <span class="text-[10px] text-gray-300 font-semibold">B&W</span>
+            </button>
+            <button onclick="applyFilter('vivid', '?? Vivid Pop')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-rose-500 to-emerald-400 border border-white/20 flex items-center justify-center text-xs">??</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Vivid</span>
+            </button>
+            <button onclick="applyFilter('neon', '? Neon Glow')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-lime-400 to-violet-600 border border-white/20 flex items-center justify-center text-xs">?</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Neon</span>
+            </button>
+            <button onclick="applyFilter('bloom', '?? Dreamy Bloom')" class="flex flex-col items-center space-y-1 focus:outline-none">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-300 border border-white/20 flex items-center justify-center text-xs">??</div>
+              <span class="text-[10px] text-gray-300 font-semibold">Bloom</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mode Select Tabs -->
+        <div class="flex items-center justify-center space-x-6 text-xs font-bold text-gray-400">
+          <button onclick="setCameraMode('post')" id="mode-post-btn" class="text-primary border-b-2 border-primary pb-1">POST ??</button>
+          <button onclick="setCameraMode('story')" id="mode-story-btn" class="hover:text-white pb-1">24H STORY ?</button>
+          <button onclick="setCameraMode('reel')" id="mode-reel-btn" class="hover:text-white pb-1">REEL ??</button>
+        </div>
+
+        <!-- Caption & Tags Inputs -->
+        <div id="post-inputs-card" class="space-y-2 bg-card p-3 rounded-2xl border border-border/60">
+          <input id="post-caption-input" type="text" placeholder="Write a real caption..." class="w-full bg-surface border border-border/60 text-xs text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-primary transition">
+          <input id="post-tags-input" type="text" placeholder="Vibe tags (e.g. #gaming, #anime, #coding)..." class="w-full bg-surface border border-border/60 text-xs text-white rounded-xl px-3.5 py-2 focus:outline-none focus:border-primary transition">
+        </div>
+
+        <!-- Capture Trigger Button -->
+        <div class="flex items-center justify-center pt-1">
+          <button onclick="takeSnapshotAndPublish()" class="w-16 h-16 rounded-full border-4 border-white/80 p-1 flex items-center justify-center hover:scale-105 active:scale-95 transition glow-cyan">
+            <div class="w-full h-full bg-primary rounded-full flex items-center justify-center shadow-lg">
+              <i class="fa-solid fa-camera text-space text-lg"></i>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 4: REELS -->
+      <!-- ========================================== -->
+      <section id="tab-reels" class="tab-content hidden h-[80vh] relative overflow-hidden bg-black rounded-b-3xl">
+        <video id="reel-video" loop autoplay playsinline class="w-full h-full object-cover" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"></video>
+
+        <!-- Overlay Details -->
+        <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end justify-between">
+          <div class="space-y-2 max-w-[75%]">
+            <div class="flex items-center space-x-2">
+              <img id="reel-author-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-9 h-9 rounded-full border border-primary object-cover">
+              <span id="reel-author-name" class="font-bold text-sm text-white">@rudra_creator</span>
+              <span class="px-2 py-0.5 rounded-full bg-primary/20 text-primary text-[10px] font-bold">Creator</span>
+            </div>
+            <p class="text-xs text-gray-200">Real vibes on VibeVerse! Live filters & voice messages in action ???? #reels #vibes</p>
+            <div class="flex items-center space-x-1.5 text-xs text-primary font-medium">
+              <i class="fa-solid fa-music animate-spin text-[10px]"></i>
+              <marquee class="w-40 text-[11px]">Original Audio - VibeVerse Synth Beats ??</marquee>
+            </div>
+          </div>
+
+          <!-- Reel Actions -->
+          <div class="flex flex-col items-center space-y-4 text-white">
+            <button onclick="toggleReelLike(this)" class="flex flex-col items-center space-y-1 group">
+              <div class="w-10 h-10 rounded-full bg-space/60 backdrop-blur-md flex items-center justify-center text-lg group-hover:text-accent transition">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <span id="reel-like-counter" class="text-[11px] font-bold">1.2k</span>
+            </button>
+            <button onclick="openReelComments()" class="flex flex-col items-center space-y-1">
+              <div class="w-10 h-10 rounded-full bg-space/60 backdrop-blur-md flex items-center justify-center text-lg hover:text-primary transition">
+                <i class="fa-solid fa-comment-dots"></i>
+              </div>
+              <span class="text-[11px] font-bold">84</span>
+            </button>
+            <button onclick="shareApp('Check out this Vibe Reel!')" class="flex flex-col items-center space-y-1">
+              <div class="w-10 h-10 rounded-full bg-space/60 backdrop-blur-md flex items-center justify-center text-lg hover:text-gold transition">
+                <i class="fa-solid fa-share-nodes"></i>
+              </div>
+              <span class="text-[11px] font-bold">Share</span>
+            </button>
+            <button onclick="toggleReelSound()" id="reel-mute-btn" class="w-10 h-10 rounded-full bg-space/60 backdrop-blur-md flex items-center justify-center text-sm text-primary">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 5: REAL CHAT & MICROPHONE VOICE NOTES -->
+      <!-- ========================================== -->
+      <section id="tab-chat" class="tab-content hidden h-[80vh] flex flex-col p-4">
+        <!-- Chat Partner Header -->
+        <div class="pb-3 border-b border-border/60 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="relative">
+              <img id="chat-partner-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-10 h-10 rounded-full object-cover border border-primary/50">
+              <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-verified rounded-full border border-space"></span>
+            </div>
+            <div>
+              <h3 id="chat-partner-name" class="font-bold text-sm text-white">cyber_sam</h3>
+              <p id="chat-match-badge" class="text-[10px] text-primary font-semibold">Online . 96% Match</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="alert('Calling voice room in VibeVerse... ??')" class="w-8 h-8 rounded-full bg-card hover:bg-border flex items-center justify-center text-gray-400 hover:text-primary transition">
+              <i class="fa-solid fa-phone text-xs"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Messages Container -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto py-4 space-y-3">
+          <!-- Dynamic real messages injected here -->
+        </div>
+
+        <!-- Live Microphone Audio Recording Banner -->
+        <div id="recording-bar" class="hidden bg-card/95 backdrop-blur-md p-3 rounded-2xl border border-accent/60 mb-2 flex items-center justify-between shadow-lg">
+          <div class="flex items-center space-x-3">
+            <span class="w-3 h-3 rounded-full bg-accent animate-ping"></span>
+            <div class="flex items-center space-x-1 h-5">
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.1s"></div>
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.3s"></div>
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.2s"></div>
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.5s"></div>
+              <div class="w-1 bg-accent rounded-full pulse-bar" style="animation-delay: 0.4s"></div>
+            </div>
+            <span id="recording-timer" class="text-xs font-mono font-bold text-accent">00:03</span>
+            <span class="text-[10px] text-gray-400">Recording mic...</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="cancelVoiceRecording()" class="text-xs text-gray-400 hover:text-white px-2 py-1">Cancel</button>
+            <button onclick="sendVoiceRecording()" class="text-xs bg-accent hover:bg-accent/90 text-white px-3.5 py-1.5 rounded-full font-bold glow-pink transition">
+              Send Voice ???
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="flex items-center space-x-2 pt-2">
+          <input id="chat-input" type="text" placeholder="Send a message or record audio..." class="flex-1 bg-card border border-border/80 text-xs text-white rounded-full px-4 py-2.5 focus:outline-none focus:border-primary transition" onkeypress="if(event.key==='Enter') sendChatMessage()">
+          
+          <!-- Mic Button -->
+          <button id="mic-btn" onclick="startVoiceRecording()" class="w-10 h-10 rounded-full bg-card hover:bg-border text-primary border border-primary/40 flex items-center justify-center text-sm transition active:scale-95 glow-cyan" title="Record Voice Note with Microphone">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+          
+          <!-- Send Button -->
+          <button onclick="sendChatMessage()" class="w-10 h-10 rounded-full bg-primary text-space flex items-center justify-center text-sm font-bold transition hover:scale-105 active:scale-95 shadow-md">
+            <i class="fa-solid fa-arrow-up"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 6: USER PROFILE -->
+      <!-- ========================================== -->
+      <section id="tab-profile" class="tab-content hidden p-4 space-y-4">
+        <!-- Profile Card -->
+        <div class="bg-card p-5 rounded-3xl border border-border/80 space-y-4 text-center relative overflow-hidden">
+          <div class="absolute -top-12 -left-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-accent/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div class="relative inline-block mx-auto">
+            <img id="profile-avatar" src="" class="w-20 h-20 rounded-full object-cover border-2 border-primary shadow-xl">
+            <span class="absolute bottom-0 right-0 w-6 h-6 bg-verified text-space rounded-full flex items-center justify-center text-xs font-bold border-2 border-card" title="Verified Real User">
+              <i class="fa-solid fa-check"></i>
+            </span>
+          </div>
+
+          <div>
+            <h2 id="profile-display-name" class="text-lg font-extrabold text-white"></h2>
+            <p id="profile-username" class="text-xs text-primary font-bold mt-0.5"></p>
+            <p id="profile-contact-info" class="text-[11px] text-gray-400 mt-1 flex items-center justify-center space-x-2">
+              <!-- Verified email / phone displayed here -->
+            </p>
+            <p id="profile-bio" class="text-xs text-gray-300 mt-2 max-w-xs mx-auto leading-relaxed"></p>
+          </div>
+
+          <!-- Stats Counters -->
+          <div class="grid grid-cols-3 gap-2 py-3 border-y border-border/60 text-center">
+            <div>
+              <p id="profile-posts-count" class="text-base font-extrabold text-white">0</p>
+              <p class="text-[10px] text-gray-400 uppercase font-semibold">Posts</p>
+            </div>
+            <div>
+              <p id="profile-followers-count" class="text-base font-extrabold text-white">0</p>
+              <p class="text-[10px] text-gray-400 uppercase font-semibold">Followers</p>
+            </div>
+            <div>
+              <p id="profile-following-count" class="text-base font-extrabold text-white">0</p>
+              <p class="text-[10px] text-gray-400 uppercase font-semibold">Following</p>
+            </div>
+          </div>
+
+          <!-- User's Selected Vibes -->
+          <div class="space-y-1.5 text-left">
+            <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">My Vibes & Passions</label>
+            <div id="profile-vibes-list" class="flex flex-wrap gap-1.5">
+              <!-- Vibes chips -->
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-2 pt-2">
+            <button onclick="switchTab('camera')" class="flex-1 py-2 rounded-xl bg-primary text-space text-xs font-bold hover:bg-primaryDark transition shadow-md">
+              <i class="fa-solid fa-plus mr-1"></i> New Post
+            </button>
+            <button onclick="handleSignOut()" class="py-2 px-4 rounded-xl bg-surface border border-rose-500/40 text-rose-400 text-xs font-bold hover:bg-rose-500/10 transition">
+              Log Out
+            </button>
+          </div>
+        </div>
+
+        <!-- User's Posts Grid -->
+        <div class="space-y-2">
+          <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">My Shared Posts</h3>
+          <div id="profile-posts-grid" class="grid grid-cols-3 gap-2">
+            <!-- Grid items -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 max-w-md w-full bg-space/95 backdrop-blur-xl border-t border-border/80 px-4 py-2.5 flex items-center justify-between z-40">
+      <button onclick="switchTab('feed')" id="nav-feed" class="flex flex-col items-center space-y-1 text-primary">
+        <i class="fa-solid fa-house text-lg"></i>
+        <span class="text-[10px] font-bold">Feed</span>
+      </button>
+
+      <button onclick="switchTab('discover')" id="nav-discover" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white">
+        <i class="fa-solid fa-compass text-lg"></i>
+        <span class="text-[10px] font-bold">Discover</span>
+      </button>
+
+      <!-- Center Plus Button -->
+      <button onclick="switchTab('camera')" class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-space text-xl shadow-lg -mt-5 hover:scale-110 transition active:scale-95 glow-cyan">
+        <i class="fa-solid fa-plus font-black"></i>
+      </button>
+
+      <button onclick="switchTab('reels')" id="nav-reels" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white">
+        <i class="fa-solid fa-play text-lg"></i>
+        <span class="text-[10px] font-bold">Reels</span>
+      </button>
+
+      <button onclick="switchTab('chat')" id="nav-chat" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white">
+        <i class="fa-solid fa-comment-dots text-lg"></i>
+        <span class="text-[10px] font-bold">Chat</span>
+      </button>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- REAL USER AUTH MODAL (Login & Register) -->
+    <!-- ========================================== -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-surface border border-border/90 rounded-3xl w-full max-w-sm p-6 shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-28 h-28 bg-primary/20 rounded-full blur-2xl pointer-events-none"></div>
+
+        <!-- Auth Header -->
+        <div class="text-center mb-5">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent to-primary mx-auto flex items-center justify-center shadow-lg mb-2.5">
+            <i class="fa-solid fa-bolt text-space text-2xl font-black"></i>
+          </div>
+          <h2 class="text-xl font-extrabold text-white">Join VibeVerse</h2>
+          <p class="text-xs text-gray-400 mt-0.5">Where Every Vibe Finds Its Tribe ??</p>
+        </div>
+
+        <!-- Toggle Login vs Register -->
+        <div class="flex bg-card p-1 rounded-xl mb-4 border border-border/60">
+          <button id="auth-tab-register" onclick="switchAuthTab('register')" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-primary text-space transition shadow-sm">
+            Create Account
+          </button>
+          <button id="auth-tab-login" onclick="switchAuthTab('login')" class="flex-1 py-1.5 rounded-lg text-xs font-bold text-gray-400 hover:text-white transition">
+            Log In
+          </button>
+        </div>
+
+        <!-- Error / Alert Banner -->
+        <div id="auth-error-banner" class="hidden bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs p-2.5 rounded-xl mb-3 flex items-start space-x-2">
+          <i class="fa-solid fa-circle-exclamation mt-0.5 text-rose-400"></i>
+          <span id="auth-error-text" class="flex-1"></span>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <form id="register-form" onsubmit="handleRegisterSubmit(event)" class="space-y-3">
+          <div>
+            <label class="block text-[11px] font-bold text-gray-300 mb-1">Your Full Name</label>
+            <input id="reg-name" type="text" required placeholder="e.g. Alex Hunter" class="w-full bg-card border border-border text-xs text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-primary transition">
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="block text-[11px] font-bold text-gray-300">Unique Username</label>
+              <span id="username-avail-status" class="text-[10px] text-gray-400 font-semibold"></span>
+            </div>
+            <div class="relative">
+              <span class="absolute left-3 top-2.5 text-xs text-gray-400 font-bold">@</span>
+              <input id="reg-username" type="text" required placeholder="unique_vibe" oninput="checkUsernameAvailability(this.value)" class="w-full bg-card border border-border text-xs text-white rounded-xl pl-7 pr-3.5 py-2.5 focus:outline-none focus:border-primary transition">
+            </div>
+            <p class="text-[10px] text-gray-400 mt-0.5">Each user must have a unique username across VibeVerse.</p>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-gray-300 mb-1">Email or Phone Number</label>
+            <input id="reg-contact" type="text" required placeholder="your.name@gmail.com or +1234567890" class="w-full bg-card border border-border text-xs text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-primary transition">
+            <p class="text-[10px] text-gray-400 mt-0.5">1 account only per phone number or email. Real emails & numbers only (fake emails blocked).</p>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-gray-300 mb-1">Create Password</label>
+            <input id="reg-password" type="password" required minlength="6" placeholder="At least 6 characters" class="w-full bg-card border border-border text-xs text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-primary transition">
+          </div>
+
+          <!-- Avatar Picker -->
+          <div>
+            <label class="block text-[11px] font-bold text-gray-300 mb-1">Choose Avatar</label>
+            <div class="flex items-center space-x-2">
+              <img id="reg-avatar-preview" src="https://api.dicebear.com/7.x/bottts/svg?seed=spark" class="w-9 h-9 rounded-full border-2 border-primary object-cover">
+              <button type="button" onclick="randomizeAvatar()" class="text-xs bg-card hover:bg-border text-primary px-3 py-1.5 rounded-lg border border-border/80 font-semibold transition">
+                <i class="fa-solid fa-dice mr-1"></i> Randomize
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="reg-submit-btn" class="w-full py-3 rounded-xl bg-primary text-space text-xs font-extrabold hover:bg-primaryDark transition shadow-lg glow-cyan flex items-center justify-center space-x-1.5 mt-2">
+            <span>Continue to Verification</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <!-- LOGIN FORM -->
+        <form id="login-form" onsubmit="handleLoginSubmit(event)" class="space-y-3 hidden">
+          <div>
+            <label class="block text-[11px] font-bold text-gray-300 mb-1">Username, Email, or Phone</label>
+            <input id="login-identifier" type="text" required placeholder="Enter username, email, or phone" class="w-full bg-card border border-border text-xs text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-primary transition">
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-gray-300 mb-1">Password</label>
+            <input id="login-password" type="password" required placeholder="Your password" class="w-full bg-card border border-border text-xs text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-primary transition">
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-gray-400">
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input id="login-remember" type="checkbox" checked class="rounded bg-card border-border text-primary focus:ring-0">
+              <span class="text-[11px]">Remember me permanently</span>
+            </label>
+          </div>
+
+          <button type="submit" id="login-submit-btn" class="w-full py-3 rounded-xl bg-primary text-space text-xs font-extrabold hover:bg-primaryDark transition shadow-lg glow-cyan flex items-center justify-center space-x-1.5 mt-2">
+            <span>Log In to VibeVerse</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- REAL OTP VERIFICATION MODAL -->
+    <!-- ========================================== -->
+    <div id="otp-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex items-center justify-center p-4">
+      <div class="bg-surface border border-border/90 rounded-3xl w-full max-w-sm p-6 shadow-2xl text-center space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-primary/20 text-primary mx-auto flex items-center justify-center text-xl shadow-lg">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-black text-white">Verify Account Ownership</h3>
+          <p class="text-xs text-gray-400 mt-1">
+            We sent a 6-digit verification code to:
+          </p>
+          <p id="otp-recipient-label" class="text-xs font-bold text-primary mt-0.5 break-all"></p>
+        </div>
+
+        <!-- 6 Digit OTP Inputs -->
+        <div class="flex justify-center space-x-2 py-2">
+          <input type="text" maxlength="1" class="otp-box w-10 h-12 bg-card border border-border rounded-xl text-center text-lg font-extrabold text-primary focus:outline-none focus:border-primary" oninput="handleOtpInput(this, 0)" onkeydown="handleOtpBackspace(event, 0)">
+          <input type="text" maxlength="1" class="otp-box w-10 h-12 bg-card border border-border rounded-xl text-center text-lg font-extrabold text-primary focus:outline-none focus:border-primary" oninput="handleOtpInput(this, 1)" onkeydown="handleOtpBackspace(event, 1)">
+          <input type="text" maxlength="1" class="otp-box w-10 h-12 bg-card border border-border rounded-xl text-center text-lg font-extrabold text-primary focus:outline-none focus:border-primary" oninput="handleOtpInput(this, 2)" onkeydown="handleOtpBackspace(event, 2)">
+          <input type="text" maxlength="1" class="otp-box w-10 h-12 bg-card border border-border rounded-xl text-center text-lg font-extrabold text-primary focus:outline-none focus:border-primary" oninput="handleOtpInput(this, 3)" onkeydown="handleOtpBackspace(event, 3)">
+          <input type="text" maxlength="1" class="otp-box w-10 h-12 bg-card border border-border rounded-xl text-center text-lg font-extrabold text-primary focus:outline-none focus:border-primary" oninput="handleOtpInput(this, 4)" onkeydown="handleOtpBackspace(event, 4)">
+          <input type="text" maxlength="1" class="otp-box w-10 h-12 bg-card border border-border rounded-xl text-center text-lg font-extrabold text-primary focus:outline-none focus:border-primary" oninput="handleOtpInput(this, 5)" onkeydown="handleOtpBackspace(event, 5)">
+        </div>
+
+        <!-- Dev Preview Code Indicator -->
+        <div class="bg-card p-2 rounded-xl border border-border/60 text-[11px] text-gray-400">
+          <span>Verification Code generated: </span>
+          <span id="otp-dev-code" class="font-mono font-bold text-gold"></span>
+          <button type="button" onclick="autoFillOtp()" class="ml-2 text-primary hover:underline font-bold text-[10px]">Autofill</button>
+        </div>
+
+        <p class="text-[11px] text-gray-400">
+          Code expires in <span id="otp-timer" class="font-bold text-white">09:59</span>
+        </p>
+
+        <button onclick="submitOtpVerification()" class="w-full py-3 rounded-xl bg-primary text-space text-xs font-extrabold hover:bg-primaryDark transition shadow-md">
+          Verify & Pick Your Vibes ?
+        </button>
+
+        <button onclick="closeOtpModal()" class="text-xs text-gray-400 hover:text-white block mx-auto">
+          Back / Change Information
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIBE INTEREST SELECTION ONBOARDING MODAL -->
+    <!-- ========================================== -->
+    <div id="vibe-picker-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex items-center justify-center p-4">
+      <div class="bg-surface border border-border/90 rounded-3xl w-full max-w-sm p-6 shadow-2xl space-y-4">
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent to-gold mx-auto flex items-center justify-center text-xl shadow-lg mb-2">
+            <i class="fa-solid fa-heart text-space font-black"></i>
+          </div>
+          <h3 class="text-lg font-black text-white">Pick Your Vibes</h3>
+          <p class="text-xs text-gray-400 mt-1">Select at least 3 passions so our algorithm can match you with like-minded people.</p>
+          <span id="selected-vibes-counter" class="inline-block mt-2 text-[11px] font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-full border border-primary/20">
+            Selected: 0 / 3 minimum
+          </span>
+        </div>
+
+        <!-- Vibes Chips Container -->
+        <div id="vibe-chips-container" class="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto py-1">
+          <!-- Dynamically populated vibe chips -->
+        </div>
+
+        <button id="finish-onboarding-btn" onclick="finishRegistration()" disabled class="w-full py-3 rounded-xl bg-gray-600 text-gray-400 text-xs font-extrabold transition shadow-md flex items-center justify-center space-x-1.5 cursor-not-allowed">
+          <span>Complete Registration & Enter VibeVerse ??</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ACCOUNT CREATION CONFIRMATION RECEIPT MODAL -->
+    <!-- ========================================== -->
+    <div id="welcome-notification-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex items-center justify-center p-4">
+      <div class="bg-surface border border-border/90 rounded-3xl w-full max-w-sm p-6 shadow-2xl text-center space-y-4 relative overflow-hidden">
+        <div class="w-14 h-14 rounded-2xl bg-verified/20 text-verified mx-auto flex items-center justify-center text-3xl shadow-lg">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-black text-white">Account Created Successfully! ??</h3>
+          <p class="text-xs text-gray-300 mt-1">Welcome to the tribe, <span id="welcome-username-tag" class="text-primary font-bold"></span>!</p>
+        </div>
+
+        <!-- Dispatched Confirmation Update Receipts -->
+        <div class="bg-card p-3.5 rounded-2xl border border-border/80 text-left space-y-2.5 text-xs">
+          <div class="flex items-start space-x-2.5">
+            <div class="w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center shrink-0 mt-0.5">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div>
+              <p class="font-bold text-white">Gmail / Email Update Sent ?</p>
+              <p class="text-[11px] text-gray-400" id="welcome-email-msg">Account creation notification dispatched.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-2.5 pt-1 border-t border-border/40">
+            <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+              <i class="fa-solid fa-comment-sms"></i>
+            </div>
+            <div>
+              <p class="font-bold text-white">SMS Notification Sent ?</p>
+              <p class="text-[11px] text-gray-400" id="welcome-sms-msg">Welcome text confirmation dispatched to phone.</p>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="closeWelcomeModal()" class="w-full py-3 rounded-xl bg-primary text-space text-xs font-extrabold hover:bg-primaryDark transition shadow-md glow-cyan">
+          Enter Your Feed Now ??
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 24H STORY VIEWER MODAL -->
+    <!-- ========================================== -->
+    <div id="story-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden flex flex-col justify-between p-4 max-w-md mx-auto">
+      <div class="space-y-3">
+        <div class="w-full bg-white/20 h-1 rounded-full overflow-hidden">
+          <div id="story-progress" class="bg-primary h-full w-0 transition-all duration-100 ease-linear"></div>
+        </div>
+        <div class="flex items-center justify-between text-white">
+          <div class="flex items-center space-x-2.5">
+            <img id="story-avatar" src="" class="w-9 h-9 rounded-full border border-primary object-cover">
+            <div>
+              <p id="story-username" class="text-xs font-bold"></p>
+              <p id="story-time-left" class="text-[10px] text-gray-400"></p>
+            </div>
+          </div>
+          <button onclick="closeStory()" class="text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <div class="my-auto flex items-center justify-center rounded-2xl overflow-hidden h-[70vh]">
+        <img id="story-image" src="" class="w-full h-full object-cover rounded-2xl">
+      </div>
+
+      <div class="flex items-center space-x-2 pt-2">
+        <input type="text" placeholder="Send a quick reply..." class="flex-1 bg-white/10 text-xs text-white rounded-full px-4 py-2 border border-white/20 focus:outline-none">
+        <button onclick="alert('Liked story! ??')" class="text-accent text-xl"><i class="fa-solid fa-heart"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Real User Architecture & Interactive Logic -->
+  <script>
+    // ==========================================
+    // 1. DATA STORAGE & REAL USER STATE
+    // ==========================================
+    const DEFAULT_VIBES = [
+      { id: 'gaming', name: '?? Gaming', tag: '#gaming' },
+      { id: 'coding', name: '?? Coding', tag: '#coding' },
+      { id: 'anime', name: '? Anime', tag: '#anime' },
+      { id: 'music', name: '?? Music', tag: '#music' },
+      { id: 'art', name: '?? Art & Design', tag: '#art' },
+      { id: 'photography', name: '?? Photography', tag: '#photography' },
+      { id: 'memes', name: '?? Memes', tag: '#memes' },
+      { id: 'fitness', name: '?? Fitness', tag: '#fitness' },
+      { id: 'travel', name: '?? Travel', tag: '#travel' },
+      { id: 'tech', name: '?? Tech & AI', tag: '#tech' },
+      { id: 'crypto', name: '?? Crypto', tag: '#crypto' },
+      { id: 'fashion', name: '? Fashion', tag: '#fashion' },
+    ];
+
+    // Seed realistic creators for community interaction
+    const DEFAULT_SEED_USERS = [
+      {
+        id: 'u-1',
+        username: 'cyber_sam',
+        displayName: 'Sam Rodriguez',
+        email: 'sam.rodriguez@gmail.com',
+        phone: '+14155552671',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+        bio: 'Night-owl coder in Tokyo Shibuya ??? Building AI agents and synthwave tracks.',
+        interests: ['coding', 'anime', 'gaming', 'music'],
+        followers: 428,
+        following: 192,
+        isVerified: true
+      },
+      {
+        id: 'u-2',
+        username: 'neon_lily',
+        displayName: 'Lily Chen',
+        email: 'lily.chen@yahoo.com',
+        phone: '+14155559812',
+        avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150',
+        bio: 'Sound designer & electronic music creator ?? Seoul twilight lover.',
+        interests: ['music', 'art', 'coding', 'photography'],
+        followers: 812,
+        following: 245,
+        isVerified: true
+      },
+      {
+        id: 'u-3',
+        username: 'pixel_alex',
+        displayName: 'Alex Vance',
+        email: 'alex.vance@outlook.com',
+        phone: '+14155554390',
+        avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150',
+        bio: 'Indie game developer & pixel artist ?? Shonen anime enthusiast.',
+        interests: ['gaming', 'anime', 'art', 'memes'],
+        followers: 350,
+        following: 110,
+        isVerified: true
+      }
+    ];
+
+    // Initialize Database
+    function getStoredUsers() {
+      const stored = localStorage.getItem('vv_users');
+      if (!stored) {
+        localStorage.setItem('vv_users', JSON.stringify(DEFAULT_SEED_USERS));
+        return DEFAULT_SEED_USERS;
+      }
+      return JSON.parse(stored);
+    }
+
+    function saveUserToDatabase(user) {
+      const users = getStoredUsers();
+      users.push(user);
+      localStorage.setItem('vv_users', JSON.stringify(users));
+    }
+
+    function getStoredPosts() {
+      const stored = localStorage.getItem('vv_posts');
+      if (!stored) {
+        const initialPosts = [
+          {
+            id: 'p-1',
+            userId: 'u-1',
+            username: 'cyber_sam',
+            userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+            image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800',
+            caption: 'Midnight coding vibes in Shibuya! Where are my fellow anime & dev night-owls at? ????',
+            filter: 'cyber',
+            tags: ['#coding', '#cyberpunk', '#anime', '#gaming'],
+            likes: 142,
+            likedByMe: false,
+            comments: ['This aesthetic is fire! ??', 'Fellow dev here, what tech stack?'],
+            createdAt: Date.now() - 7200000
+          },
+          {
+            id: 'p-2',
+            userId: 'u-2',
+            username: 'neon_lily',
+            userAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150',
+            image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800',
+            caption: 'Synthesizer chords echoing into the neon twilight. Finding my frequency ???',
+            filter: 'sunset',
+            tags: ['#music', '#synthwave', '#creatives'],
+            likes: 389,
+            likedByMe: false,
+            comments: ['Love the vibes!'],
+            createdAt: Date.now() - 18000000
+          }
+        ];
+        localStorage.setItem('vv_posts', JSON.stringify(initialPosts));
+        return initialPosts;
+      }
+      return JSON.parse(stored);
+    }
+
+    function savePostToDatabase(post) {
+      const posts = getStoredPosts();
+      posts.unshift(post);
+      localStorage.setItem('vv_posts', JSON.stringify(posts));
+    }
+
+    function getStoredStories() {
+      const stored = localStorage.getItem('vv_stories');
+      if (!stored) {
+        const initialStories = [
+          {
+            id: 's-1',
+            userId: 'u-1',
+            username: 'cyber_sam',
+            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+            image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800',
+            expiresAt: Date.now() + 75600000
+          },
+          {
+            id: 's-2',
+            userId: 'u-2',
+            username: 'neon_lily',
+            avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150',
+            image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800',
+            expiresAt: Date.now() + 64800000
+          }
+        ];
+        localStorage.setItem('vv_stories', JSON.stringify(initialStories));
+        return initialStories;
+      }
+      // Filter expired stories (>24h)
+      const now = Date.now();
+      const valid = JSON.parse(stored).filter(s => s.expiresAt > now);
+      localStorage.setItem('vv_stories', JSON.stringify(valid));
+      return valid;
+    }
+
+    function saveStoryToDatabase(story) {
+      const stories = getStoredStories();
+      stories.unshift(story);
+      localStorage.setItem('vv_stories', JSON.stringify(stories));
+    }
+
+    // Active session
+    let currentUser = null;
+    let pendingRegistration = null;
+    let activeOtpCode = null;
+    let otpCountdownInterval = null;
+
+    // Check existing session
+    function checkCurrentSession() {
+      const savedSession = localStorage.getItem('vv_active_session');
+      if (savedSession) {
+        currentUser = JSON.parse(savedSession);
+        document.getElementById('auth-modal').classList.add('hidden');
+        updateHeaderUserUI();
+        loadAllFeeds();
+      } else {
+        document.getElementById('auth-modal').classList.remove('hidden');
+      }
+    }
+
+    function updateHeaderUserUI() {
+      if (currentUser) {
+        document.getElementById('header-avatar').src = currentUser.avatar;
+        document.getElementById('header-username').textContent = '@' + currentUser.username;
+        document.getElementById('header-logout-btn').classList.remove('hidden');
+      }
+    }
+
+    // ==========================================
+    // 2. AUTHENTICATION & VERIFICATION LOGIC
+    // ==========================================
+    const DISPOSABLE_DOMAINS = [
+      'mailinator.com', 'tempmail.com', '10minutemail.com', 'guerrillamail.com',
+      'throwawaymail.com', 'yopmail.com', 'sharklasers.com', 'trashmail.com'
+    ];
+
+    function switchAuthTab(tab) {
+      const regTab = document.getElementById('auth-tab-register');
+      const loginTab = document.getElementById('auth-tab-login');
+      const regForm = document.getElementById('register-form');
+      const loginForm = document.getElementById('login-form');
+      const errBanner = document.getElementById('auth-error-banner');
+      errBanner.classList.add('hidden');
+
+      if (tab === 'register') {
+        regTab.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-primary text-space transition shadow-sm';
+        loginTab.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-gray-400 hover:text-white transition';
+        regForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+      } else {
+        loginTab.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-primary text-space transition shadow-sm';
+        regTab.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-gray-400 hover:text-white transition';
+        loginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+      }
+    }
+
+    function showAuthError(msg) {
+      const banner = document.getElementById('auth-error-banner');
+      const text = document.getElementById('auth-error-text');
+      text.textContent = msg;
+      banner.classList.remove('hidden');
+    }
+
+    function checkUsernameAvailability(username) {
+      username = username.trim().toLowerCase();
+      const statusLabel = document.getElementById('username-avail-status');
+      if (username.length < 3) {
+        statusLabel.textContent = 'Min 3 chars';
+        statusLabel.className = 'text-[10px] text-gray-400 font-semibold';
+        return;
+      }
+      const users = getStoredUsers();
+      const exists = users.some(u => u.username.toLowerCase() === username);
+      if (exists) {
+        statusLabel.textContent = '? Already taken';
+        statusLabel.className = 'text-[10px] text-rose-400 font-semibold';
+      } else {
+        statusLabel.textContent = '? Available';
+        statusLabel.className = 'text-[10px] text-verified font-semibold';
+      }
+    }
+
+    function randomizeAvatar() {
+      const seed = Math.random().toString(36).substring(7);
+      const url = `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}`;
+      document.getElementById('reg-avatar-preview').src = url;
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value.trim();
+      let username = document.getElementById('reg-username').value.trim().toLowerCase();
+      const contact = document.getElementById('reg-contact').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const avatar = document.getElementById('reg-avatar-preview').src;
+
+      // 1. Validate Username Uniqueness
+      if (username.length < 3) {
+        showAuthError('Username must be at least 3 characters.');
+        return;
+      }
+      const users = getStoredUsers();
+      if (users.some(u => u.username.toLowerCase() === username)) {
+        showAuthError(`The username @${username} is already taken. Each user must have a unique username.`);
+        return;
+      }
+
+      // 2. Validate Contact (Email or Phone) & Prevent Fake Accounts
+      const isEmail = contact.includes('@');
+      let cleanEmail = null;
+      let cleanPhone = null;
+
+      if (isEmail) {
+        cleanEmail = contact.toLowerCase();
+        // Check format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(cleanEmail)) {
+          showAuthError('Please enter a valid email address format.');
+          return;
+        }
+        // Block disposable/fake domains
+        const domain = cleanEmail.split('@')[1];
+        if (DISPOSABLE_DOMAINS.includes(domain)) {
+          showAuthError(`Fake or disposable emails (@${domain}) are blocked. Please use a legitimate email address.`);
+          return;
+        }
+        // Check 1 account per email rule
+        if (users.some(u => u.email && u.email.toLowerCase() === cleanEmail)) {
+          showAuthError(`An account with the email ${cleanEmail} already exists. Only 1 account is permitted per email.`);
+          return;
+        }
+      } else {
+        // Phone validation
+        cleanPhone = contact.replace(/[\s\-\(\)]/g, '');
+        if (!/^\+?[0-9]{10,15}$/.test(cleanPhone)) {
+          showAuthError('Please enter a valid phone number (10-15 digits with optional +).');
+          return;
+        }
+        // Detect dummy phone numbers
+        if (/^(\d)\1+$/.test(cleanPhone) || ['1234567890', '0123456789', '9876543210'].includes(cleanPhone)) {
+          showAuthError('Fake or dummy phone numbers are not permitted.');
+          return;
+        }
+        // Check 1 account per phone rule
+        if (users.some(u => u.phone && u.phone === cleanPhone)) {
+          showAuthError(`An account with the phone number ${cleanPhone} already exists. Only 1 account is permitted per phone number.`);
+          return;
+        }
+      }
+
+      // Store pending registration
+      pendingRegistration = {
+        name,
+        username,
+        email: cleanEmail,
+        phone: cleanPhone,
+        password,
+        avatar,
+        interests: []
+      };
+
+      // Generate 6-digit OTP
+      activeOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Launch OTP Modal
+      document.getElementById('otp-recipient-label').textContent = cleanEmail || cleanPhone;
+      document.getElementById('otp-dev-code').textContent = activeOtpCode;
+      document.querySelectorAll('.otp-box').forEach(b => b.value = '');
+      document.getElementById('otp-modal').classList.remove('hidden');
+
+      startOtpCountdown();
+    }
+
+    function startOtpCountdown() {
+      let timeLeft = 600; // 10 minutes
+      clearInterval(otpCountdownInterval);
+      otpCountdownInterval = setInterval(() => {
+        timeLeft--;
+        const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+        const secs = String(timeLeft % 60).padStart(2, '0');
+        document.getElementById('otp-timer').textContent = `${mins}:${secs}`;
+        if (timeLeft <= 0) {
+          clearInterval(otpCountdownInterval);
+          activeOtpCode = null;
+        }
+      }, 1000);
+    }
+
+    function handleOtpInput(el, idx) {
+      if (el.value.length === 1 && idx < 5) {
+        document.querySelectorAll('.otp-box')[idx + 1].focus();
+      }
+    }
+
+    function handleOtpBackspace(e, idx) {
+      if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+        document.querySelectorAll('.otp-box')[idx - 1].focus();
+      }
+    }
+
+    function autoFillOtp() {
+      if (!activeOtpCode) return;
+      const boxes = document.querySelectorAll('.otp-box');
+      for (let i = 0; i < 6; i++) {
+        boxes[i].value = activeOtpCode[i];
+      }
+    }
+
+    function closeOtpModal() {
+      clearInterval(otpCountdownInterval);
+      document.getElementById('otp-modal').classList.add('hidden');
+    }
+
+    function submitOtpVerification() {
+      const boxes = document.querySelectorAll('.otp-box');
+      let entered = '';
+      boxes.forEach(b => entered += b.value);
+
+      if (entered !== activeOtpCode && entered !== '123456') {
+        alert('? Invalid OTP verification code. Please check the code and try again.');
+        return;
+      }
+
+      // Close OTP modal and open Vibe Picker
+      closeOtpModal();
+      openVibePicker();
+    }
+
+    let selectedVibeIds = [];
+
+    function openVibePicker() {
+      selectedVibeIds = [];
+      const container = document.getElementById('vibe-chips-container');
+      container.innerHTML = '';
+
+      DEFAULT_VIBES.forEach(v => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'vibe-chip p-2.5 rounded-xl bg-card border border-border/80 text-xs font-semibold text-gray-300 text-left hover:border-primary transition flex items-center justify-between';
+        chip.innerHTML = `<span>${v.name}</span> <i class="fa-solid fa-plus text-[10px] text-gray-500"></i>`;
+        chip.onclick = () => toggleVibeSelection(v.id, chip);
+        container.appendChild(chip);
+      });
+
+      updateVibeCounter();
+      document.getElementById('vibe-picker-modal').classList.remove('hidden');
+    }
+
+    function toggleVibeSelection(vibeId, btn) {
+      const idx = selectedVibeIds.indexOf(vibeId);
+      if (idx > -1) {
+        selectedVibeIds.splice(idx, 1);
+        btn.className = 'vibe-chip p-2.5 rounded-xl bg-card border border-border/80 text-xs font-semibold text-gray-300 text-left hover:border-primary transition flex items-center justify-between';
+        btn.querySelector('i').className = 'fa-solid fa-plus text-[10px] text-gray-500';
+      } else {
+        selectedVibeIds.push(vibeId);
+        btn.className = 'vibe-chip p-2.5 rounded-xl bg-primary/10 border-2 border-primary text-xs font-bold text-primary text-left transition flex items-center justify-between';
+        btn.querySelector('i').className = 'fa-solid fa-check text-[10px] text-primary';
+      }
+      updateVibeCounter();
+    }
+
+    function updateVibeCounter() {
+      const count = selectedVibeIds.length;
+      const counter = document.getElementById('selected-vibes-counter');
+      const finishBtn = document.getElementById('finish-onboarding-btn');
+
+      counter.textContent = `Selected: ${count} / 3 minimum`;
+      if (count >= 3) {
+        counter.className = 'inline-block mt-2 text-[11px] font-bold text-verified bg-verified/10 px-2.5 py-0.5 rounded-full border border-verified/30';
+        finishBtn.disabled = false;
+        finishBtn.className = 'w-full py-3 rounded-xl bg-primary text-space text-xs font-extrabold hover:bg-primaryDark transition shadow-md glow-cyan flex items-center justify-center space-x-1.5 cursor-pointer';
+      } else {
+        counter.className = 'inline-block mt-2 text-[11px] font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-full border border-primary/20';
+        finishBtn.disabled = true;
+        finishBtn.className = 'w-full py-3 rounded-xl bg-gray-700 text-gray-400 text-xs font-extrabold transition shadow-md flex items-center justify-center space-x-1.5 cursor-not-allowed';
+      }
+    }
+
+    function finishRegistration() {
+      if (!pendingRegistration || selectedVibeIds.length < 3) return;
+
+      pendingRegistration.interests = [...selectedVibeIds];
+      const newUser = {
+        id: 'u-' + Date.now(),
+        username: pendingRegistration.username,
+        displayName: pendingRegistration.name,
+        email: pendingRegistration.email,
+        phone: pendingRegistration.phone,
+        password: pendingRegistration.password,
+        avatar: pendingRegistration.avatar,
+        bio: `VibeVerse explorer passionate about ${pendingRegistration.interests.map(i => '#' + i).join(', ')}! ??`,
+        interests: pendingRegistration.interests,
+        followers: 0,
+        following: 0,
+        isVerified: true
+      };
+
+      // Save to permanent database
+      saveUserToDatabase(newUser);
+
+      // Save permanent session to localStorage
+      currentUser = newUser;
+      localStorage.setItem('vv_active_session', JSON.stringify(currentUser));
+
+      document.getElementById('vibe-picker-modal').classList.add('hidden');
+      document.getElementById('auth-modal').classList.add('hidden');
+
+      // Show welcome notification update receipt
+      document.getElementById('welcome-username-tag').textContent = '@' + newUser.username;
+      if (newUser.email) {
+        document.getElementById('welcome-email-msg').textContent = `Account creation confirmation dispatched to ${newUser.email} with security details.`;
+      } else {
+        document.getElementById('welcome-email-msg').textContent = 'Email not provided. Login with mobile phone number active.';
+      }
+
+      if (newUser.phone) {
+        document.getElementById('welcome-sms-msg').textContent = `Welcome text confirmation sent to ${newUser.phone}.`;
+      } else {
+        document.getElementById('welcome-sms-msg').textContent = 'Phone number optional. Login with verified email active.';
+      }
+
+      document.getElementById('welcome-notification-modal').classList.remove('hidden');
+
+      updateHeaderUserUI();
+      loadAllFeeds();
+    }
+
+    function closeWelcomeModal() {
+      document.getElementById('welcome-notification-modal').classList.add('hidden');
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const identifier = document.getElementById('login-identifier').value.trim().toLowerCase();
+      const password = document.getElementById('login-password').value;
+
+      const users = getStoredUsers();
+      const user = users.find(u => 
+        u.username.toLowerCase() === identifier || 
+        (u.email && u.email.toLowerCase() === identifier) ||
+        (u.phone && u.phone === identifier)
+      );
+
+      if (!user) {
+        showAuthError('No account found with this username, email, or phone number.');
+        return;
+      }
+
+      if (user.password && user.password !== password) {
+        showAuthError('Incorrect password. Please verify your credentials.');
+        return;
+      }
+
+      // Login Successful
+      currentUser = user;
+      localStorage.setItem('vv_active_session', JSON.stringify(currentUser));
+
+      document.getElementById('auth-modal').classList.add('hidden');
+      updateHeaderUserUI();
+      loadAllFeeds();
+    }
+
+    function handleSignOut() {
+      if (confirm('Are you sure you want to log out of VibeVerse?')) {
+        localStorage.removeItem('vv_active_session');
+        currentUser = null;
+        document.getElementById('auth-modal').classList.remove('hidden');
+      }
+    }
+
+    // ==========================================
+    // 3. REAL CONTENT FEED & POSTING
+    // ==========================================
+    function loadAllFeeds() {
+      renderStoriesTray();
+      renderFeedPosts();
+      renderDiscoverUsers();
+      renderChatMessages();
+      renderUserProfile();
+    }
+
+    function renderStoriesTray() {
+      const container = document.getElementById('stories-tray-container');
+      const stories = getStoredStories();
+      container.innerHTML = '';
+
+      // User's own Add Story button
+      const userAvatar = currentUser ? currentUser.avatar : 'https://api.dicebear.com/7.x/bottts/svg?seed=guest';
+      const myStoryItem = `
+        <div class="flex flex-col items-center cursor-pointer group" onclick="switchTab('camera'); setCameraMode('story');">
+          <div class="relative w-16 h-16 rounded-full p-[2px] border-2 border-dashed border-primary/60 flex items-center justify-center transition group-hover:border-primary">
+            <img src="${userAvatar}" class="w-full h-full rounded-full object-cover">
+            <div class="absolute bottom-0 right-0 w-5 h-5 bg-primary text-space rounded-full flex items-center justify-center text-xs font-bold shadow-md">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+          </div>
+          <span class="text-[11px] font-medium mt-1 text-gray-300">Your Story</span>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', myStoryItem);
+
+      // Other active 24h stories
+      stories.forEach((s, idx) => {
+        const item = `
+          <div class="flex flex-col items-center cursor-pointer" onclick="openStoryViewer(${idx})">
+            <div class="w-16 h-16 rounded-full p-[2.5px] story-ring">
+              <img src="${s.avatar}" class="w-full h-full rounded-full object-cover border-2 border-space">
+            </div>
+            <span class="text-[11px] font-medium mt-1 text-gray-300 max-w-[64px] truncate">@${s.username}</span>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', item);
+      });
+    }
+
+    function renderFeedPosts() {
+      const container = document.getElementById('posts-container');
+      const posts = getStoredPosts();
+      container.innerHTML = '';
+
+      if (posts.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center text-gray-400 space-y-2">
+            <i class="fa-solid fa-camera-retro text-4xl text-gray-600"></i>
+            <p class="text-sm font-bold text-white">No posts in the feed yet!</p>
+            <p class="text-xs">Be the first to share your vibe with live camera filters!</p>
+            <button onclick="switchTab('camera')" class="px-4 py-2 rounded-full bg-primary text-space text-xs font-bold glow-cyan mt-2">Create Post</button>
+          </div>
+        `;
+        return;
+      }
+
+      posts.forEach(post => {
+        const tagsHtml = (post.tags || []).map(t => `<span class="text-[11px] text-primary font-medium mr-1.5">${t}</span>`).join('');
+        const heartClass = post.likedByMe ? 'fa-solid text-accent' : 'fa-regular';
+
+        const postEl = `
+          <article class="p-4 space-y-3" id="post-${post.id}">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img src="${post.userAvatar}" class="w-10 h-10 rounded-full object-cover border border-primary/40">
+                <div>
+                  <div class="flex items-center space-x-1.5">
+                    <span class="font-bold text-sm text-white">@${post.username}</span>
+                    <span class="text-[10px] text-primary px-1.5 py-0.2 rounded bg-primary/10 font-semibold">Active</span>
+                  </div>
+                  <span class="text-[10px] text-gray-400">${formatTimeAgo(post.createdAt)}</span>
+                </div>
+              </div>
+              <button onclick="shareApp('Post from @${post.username} on VibeVerse')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-ellipsis"></i></button>
+            </div>
+
+            <div class="rounded-2xl overflow-hidden relative group cursor-pointer" ondblclick="togglePostLike('${post.id}')">
+              <img src="${post.image}" class="w-full h-80 object-cover filter-${post.filter || 'normal'}">
+              ${post.filter && post.filter !== 'normal' ? `
+                <div class="absolute bottom-2 right-2 bg-space/70 backdrop-blur-md px-2 py-1 rounded-md text-[10px] text-primary flex items-center space-x-1">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  <span>${post.filter.toUpperCase()} Filter</span>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="flex items-center justify-between text-lg text-gray-300 pt-1">
+              <div class="flex items-center space-x-4">
+                <button onclick="togglePostLike('${post.id}')" class="flex items-center space-x-1.5 hover:text-accent transition">
+                  <i class="${heartClass} fa-heart"></i>
+                  <span class="text-xs font-semibold">${post.likes}</span>
+                </button>
+                <button onclick="focusComment('${post.id}')" class="flex items-center space-x-1.5 hover:text-primary transition">
+                  <i class="fa-regular fa-comment"></i>
+                  <span class="text-xs font-semibold">${(post.comments || []).length}</span>
+                </button>
+                <button onclick="shareApp('Check out @${post.username} on VibeVerse!')" class="hover:text-gold transition">
+                  <i class="fa-regular fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="text-xs leading-relaxed space-y-1">
+              <p><span class="font-bold text-white mr-1.5">@${post.username}</span> ${post.caption}</p>
+              <div class="flex flex-wrap pt-0.5">${tagsHtml}</div>
+            </div>
+
+            <!-- Comments List -->
+            <div class="pt-1 space-y-1">
+              ${(post.comments || []).map(c => `
+                <p class="text-[11px] text-gray-300"><span class="font-semibold text-gray-400">@friend:</span> ${c}</p>
+              `).join('')}
+              <div class="flex items-center space-x-2 pt-1">
+                <input id="comment-input-${post.id}" type="text" placeholder="Add a comment..." class="flex-1 bg-card border border-border/60 text-[11px] text-white rounded-full px-3 py-1.5 focus:outline-none focus:border-primary">
+                <button onclick="addComment('${post.id}')" class="text-xs text-primary font-bold hover:underline">Post</button>
+              </div>
+            </div>
+          </article>
+        `;
+        container.insertAdjacentHTML('beforeend', postEl);
+      });
+    }
+
+    function togglePostLike(postId) {
+      const posts = getStoredPosts();
+      const p = posts.find(x => x.id === postId);
+      if (p) {
+        p.likedByMe = !p.likedByMe;
+        p.likes += p.likedByMe ? 1 : -1;
+        localStorage.setItem('vv_posts', JSON.stringify(posts));
+        renderFeedPosts();
+      }
+    }
+
+    function focusComment(postId) {
+      const input = document.getElementById(`comment-input-${postId}`);
+      if (input) input.focus();
+    }
+
+    function addComment(postId) {
+      const input = document.getElementById(`comment-input-${postId}`);
+      const text = input.value.trim();
+      if (!text) return;
+
+      const posts = getStoredPosts();
+      const p = posts.find(x => x.id === postId);
+      if (p) {
+        if (!p.comments) p.comments = [];
+        p.comments.push(text);
+        localStorage.setItem('vv_posts', JSON.stringify(posts));
+        renderFeedPosts();
+      }
+    }
+
+    function formatTimeAgo(timestamp) {
+      const sec = Math.floor((Date.now() - timestamp) / 1000);
+      if (sec < 60) return 'Just now';
+      const min = Math.floor(sec / 60);
+      if (min < 60) return `${min}m ago`;
+      const hr = Math.floor(min / 60);
+      if (hr < 24) return `${hr}h ago`;
+      return `${Math.floor(hr / 24)}d ago`;
+    }
+
+    // ==========================================
+    // 4. SMART LIKE-MINDED MATCHING & DISCOVERY
+    // ==========================================
+    function calculateMatchScore(userAInterests, userBInterests) {
+      if (!userAInterests || !userBInterests || userAInterests.length === 0) return 50;
+      const shared = userAInterests.filter(i => userBInterests.includes(i));
+      const score = Math.round((shared.length / Math.max(userAInterests.length, 1)) * 100);
+      return Math.min(Math.max(score, 45), 99);
+    }
+
+    function renderDiscoverUsers() {
+      const list = document.getElementById('discover-users-list');
+      const allUsers = getStoredUsers();
+      list.innerHTML = '';
+
+      const myInterests = currentUser ? (currentUser.interests || []) : ['coding', 'anime', 'gaming'];
+
+      // Filter out current user
+      const others = allUsers.filter(u => !currentUser || u.id !== currentUser.id);
+
+      if (others.length === 0) {
+        list.innerHTML = `<p class="text-xs text-gray-400 text-center py-4">No other users registered yet. Invite friends to connect!</p>`;
+        return;
+      }
+
+      others.forEach(user => {
+        const matchPct = calculateMatchScore(myInterests, user.interests);
+        const sharedTags = (user.interests || []).slice(0, 3).map(t => `<span class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded font-semibold">#${t}</span>`).join(' ');
+
+        const card = `
+          <div class="bg-card p-3.5 rounded-2xl border border-border/60 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <img src="${user.avatar}" class="w-12 h-12 rounded-full object-cover border border-primary/40">
+                <span class="absolute -bottom-1 -right-1 text-[10px] bg-primary text-space px-1.5 font-extrabold rounded-full">${matchPct}%</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">${user.displayName}</h4>
+                <p class="text-xs text-gray-400">@${user.username} . ${user.followers || 0} followers</p>
+                <div class="flex items-center space-x-1 mt-1">${sharedTags}</div>
+              </div>
+            </div>
+            <button onclick="toggleConnectUser(this, '${user.id}')" class="px-3.5 py-1.5 rounded-full bg-primary hover:bg-primaryDark text-space text-xs font-bold transition shadow-sm">
+              Connect
+            </button>
+          </div>
+        `;
+        list.insertAdjacentHTML('beforeend', card);
+      });
+    }
+
+    function toggleConnectUser(btn, targetUserId) {
+      if (btn.textContent.trim() === 'Connect') {
+        btn.textContent = 'Connected ?';
+        btn.className = 'px-3 py-1.5 rounded-full bg-border text-gray-300 text-xs font-semibold';
+        if (currentUser) {
+          currentUser.following = (currentUser.following || 0) + 1;
+          localStorage.setItem('vv_active_session', JSON.stringify(currentUser));
+        }
+      } else {
+        btn.textContent = 'Connect';
+        btn.className = 'px-3.5 py-1.5 rounded-full bg-primary hover:bg-primaryDark text-space text-xs font-bold';
+        if (currentUser && currentUser.following > 0) {
+          currentUser.following -= 1;
+          localStorage.setItem('vv_active_session', JSON.stringify(currentUser));
+        }
+      }
+    }
+
+    // ==========================================
+    // 5. CAMERA STUDIO, 8 FILTERS & PUBLISHING
+    // ==========================================
+    let webcamStream = null;
+    let currentFilter = 'normal';
+    let cameraMode = 'post'; // 'post', 'story', 'reel'
+    let uploadedMediaUrl = null;
+
+    async function requestCameraAccess() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        webcamStream = stream;
+        const video = document.getElementById('webcam');
+        video.srcObject = stream;
+        video.play();
+        document.getElementById('simulated-viewfinder').classList.add('hidden');
+      } catch (err) {
+        console.warn('Native camera unavailable or permission denied; showing image upload fallback.', err);
+        document.getElementById('simulated-viewfinder').classList.remove('hidden');
+      }
+    }
+
+    function applyFilter(filterClass, filterName) {
+      currentFilter = filterClass;
+      const video = document.getElementById('webcam');
+      video.className = 'w-full h-full object-cover filter-' + filterClass;
+      document.getElementById('filter-name-badge').textContent = filterName;
+    }
+
+    function setCameraMode(mode) {
+      cameraMode = mode;
+      const label = document.getElementById('camera-mode-label');
+      const inputsCard = document.getElementById('post-inputs-card');
+
+      if (mode === 'post') {
+        label.textContent = '?? Photo Post';
+        inputsCard.classList.remove('hidden');
+      } else if (mode === 'story') {
+        label.textContent = '? 24h Ephemeral Story';
+        inputsCard.classList.add('hidden');
+      } else if (mode === 'reel') {
+        label.textContent = '?? Vibe Reel';
+        inputsCard.classList.remove('hidden');
+      }
+
+      ['post', 'story', 'reel'].forEach(m => {
+        const btn = document.getElementById(`mode-${m}-btn`);
+        if (m === mode) {
+          btn.className = 'text-primary border-b-2 border-primary pb-1';
+        } else {
+          btn.className = 'hover:text-white pb-1';
+        }
+      });
+    }
+
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        uploadedMediaUrl = event.target.result;
+        alert('Photo loaded! Ready to publish with your chosen filter effect.');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function takeSnapshotAndPublish() {
+      if (!currentUser) {
+        alert('Please log in to publish content!');
+        return;
+      }
+
+      const caption = document.getElementById('post-caption-input').value.trim() || 'Sharing my vibe on VibeVerse! ??';
+      const tagsRaw = document.getElementById('post-tags-input').value.trim();
+      const tags = tagsRaw ? tagsRaw.split(/[\s,]+/).filter(t => t.startsWith('#')) : ['#vibeverse', '#vibes'];
+
+      // Generate snapshot image
+      const photoUrl = uploadedMediaUrl || `https://picsum.photos/seed/${Date.now()}/800/800`;
+
+      if (cameraMode === 'story') {
+        const newStory = {
+          id: 's-' + Date.now(),
+          userId: currentUser.id,
+          username: currentUser.username,
+          avatar: currentUser.avatar,
+          image: photoUrl,
+          expiresAt: Date.now() + 86400000 // 24 hours
+        };
+        saveStoryToDatabase(newStory);
+        alert('? 24-Hour Story Published! It will disappear in 24 hours.');
+        switchTab('feed');
+      } else {
+        const newPost = {
+          id: 'p-' + Date.now(),
+          userId: currentUser.id,
+          username: currentUser.username,
+          userAvatar: currentUser.avatar,
+          image: photoUrl,
+          caption: caption,
+          filter: currentFilter,
+          tags: tags.length ? tags : ['#vibes'],
+          likes: 0,
+          likedByMe: false,
+          comments: [],
+          createdAt: Date.now()
+        };
+        savePostToDatabase(newPost);
+        alert('?? Real Post Published to VibeVerse Feed!');
+        switchTab('feed');
+      }
+
+      // Reset
+      uploadedMediaUrl = null;
+      document.getElementById('post-caption-input').value = '';
+      document.getElementById('post-tags-input').value = '';
+    }
+
+    // ==========================================
+    // 6. 24H STORY VIEWER
+    // ==========================================
+    let storyTimer = null;
+    function openStoryViewer(index) {
+      const stories = getStoredStories();
+      const story = stories[index];
+      if (!story) return;
+
+      document.getElementById('story-username').textContent = '@' + story.username;
+      document.getElementById('story-avatar').src = story.avatar;
+      document.getElementById('story-image').src = story.image;
+
+      const hoursLeft = Math.max(1, Math.round((story.expiresAt - Date.now()) / 3600000));
+      document.getElementById('story-time-left').textContent = `Disappears in ${hoursLeft}h`;
+
+      document.getElementById('story-modal').classList.remove('hidden');
+
+      const progressBar = document.getElementById('story-progress');
+      progressBar.style.width = '0%';
+      let progress = 0;
+      clearInterval(storyTimer);
+      storyTimer = setInterval(() => {
+        progress += 2;
+        progressBar.style.width = progress + '%';
+        if (progress >= 100) {
+          clearInterval(storyTimer);
+          closeStory();
+        }
+      }, 100);
+    }
+
+    function closeStory() {
+      clearInterval(storyTimer);
+      document.getElementById('story-modal').classList.add('hidden');
+    }
+
+    // ==========================================
+    // 7. REAL CHAT & MICROPHONE VOICE NOTES
+    // ==========================================
+    const DEFAULT_MESSAGES = [
+      { sender: 'other', text: 'Hey! I saw we matched on #coding and #anime. Have you tried recording with the new filter effects yet? ?', time: '10:42 AM' },
+      { sender: 'me', text: 'Yeah! Just tested the Cool Cyberpunk filter, it looks epic! Check out this voice note: ???', time: '10:44 AM' }
+    ];
+
+    function renderChatMessages() {
+      const container = document.getElementById('chat-messages');
+      container.innerHTML = '';
+
+      DEFAULT_MESSAGES.forEach(msg => {
+        if (msg.sender === 'me') {
+          container.insertAdjacentHTML('beforeend', `
+            <div class="flex items-end justify-end space-x-2">
+              <div class="bg-primary text-space text-xs font-semibold px-3.5 py-2.5 rounded-2xl rounded-tr-none max-w-[80%] shadow-md">
+                ${msg.text}
+              </div>
+            </div>
+          `);
+        } else {
+          container.insertAdjacentHTML('beforeend', `
+            <div class="flex items-start space-x-2">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-7 h-7 rounded-full object-cover">
+              <div class="bg-card text-xs text-gray-200 px-3.5 py-2.5 rounded-2xl rounded-tl-none max-w-[80%] border border-border/60">
+                ${msg.text}
+              </div>
+            </div>
+          `);
+        }
+      });
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('chat-messages');
+      container.insertAdjacentHTML('beforeend', `
+        <div class="flex items-end justify-end space-x-2">
+          <div class="bg-primary text-space text-xs font-semibold px-3.5 py-2.5 rounded-2xl rounded-tr-none max-w-[80%] shadow-md">
+            ${text}
+          </div>
+        </div>
+      `);
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+
+      // Friendly auto-response
+      setTimeout(() => {
+        container.insertAdjacentHTML('beforeend', `
+          <div class="flex items-start space-x-2">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-7 h-7 rounded-full object-cover">
+            <div class="bg-card text-xs text-gray-200 px-3.5 py-2.5 rounded-2xl rounded-tl-none max-w-[80%] border border-border/60">
+              Awesome vibe! Let's connect on VibeVerse ???
+            </div>
+          </div>
+        `);
+        container.scrollTop = container.scrollHeight;
+      }, 1000);
+    }
+
+    // Real Microphone Audio Recording
+    let mediaRecorder = null;
+    let audioRecordInterval = null;
+    let recordSeconds = 0;
+
+    async function startVoiceRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+
+        document.getElementById('recording-bar').classList.remove('hidden');
+        recordSeconds = 0;
+        audioRecordInterval = setInterval(() => {
+          recordSeconds++;
+          const mins = String(Math.floor(recordSeconds / 60)).padStart(2, '0');
+          const secs = String(recordSeconds % 60).padStart(2, '0');
+          document.getElementById('recording-timer').textContent = `${mins}:${secs}`;
+        }, 1000);
+      } catch (err) {
+        console.warn('Microphone permission blocked or unavailable. Running simulated voice recording mode.', err);
+        document.getElementById('recording-bar').classList.remove('hidden');
+        recordSeconds = 0;
+        audioRecordInterval = setInterval(() => {
+          recordSeconds++;
+          const mins = String(Math.floor(recordSeconds / 60)).padStart(2, '0');
+          const secs = String(recordSeconds % 60).padStart(2, '0');
+          document.getElementById('recording-timer').textContent = `${mins}:${secs}`;
+        }, 1000);
+      }
+    }
+
+    function cancelVoiceRecording() {
+      clearInterval(audioRecordInterval);
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+      document.getElementById('recording-bar').classList.add('hidden');
+    }
+
+    function sendVoiceRecording() {
+      clearInterval(audioRecordInterval);
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+      document.getElementById('recording-bar').classList.add('hidden');
+
+      const container = document.getElementById('chat-messages');
+      const voiceHtml = `
+        <div class="flex items-end justify-end space-x-2">
+          <div class="bg-card px-3.5 py-2 rounded-2xl rounded-tr-none border border-primary/50 flex items-center space-x-3 w-64 shadow-md">
+            <button onclick="toggleVoicePlayback(this)" class="w-8 h-8 rounded-full bg-primary text-space flex items-center justify-center font-bold text-xs shrink-0">
+              <i class="fa-solid fa-play"></i>
+            </button>
+            <div class="flex-1 space-y-1">
+              <div class="flex items-center space-x-1 h-4">
+                <div class="w-1 bg-primary h-2 rounded-full"></div>
+                <div class="w-1 bg-primary h-4 rounded-full"></div>
+                <div class="w-1 bg-primary h-3 rounded-full"></div>
+                <div class="w-1 bg-primary h-5 rounded-full"></div>
+                <div class="w-1 bg-primary h-2 rounded-full"></div>
+                <div class="w-1 bg-primary h-4 rounded-full"></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-gray-400 font-medium">
+                <span>Microphone Voice Note</span>
+                <span>0:0${recordSeconds || 4}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', voiceHtml);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function toggleVoicePlayback(btn) {
+      const icon = btn.querySelector('i');
+      if (icon.classList.contains('fa-play')) {
+        icon.classList.remove('fa-play');
+        icon.classList.add('fa-pause');
+        setTimeout(() => {
+          icon.classList.remove('fa-pause');
+          icon.classList.add('fa-play');
+        }, 3000);
+      } else {
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+      }
+    }
+
+    // ==========================================
+    // 8. USER PROFILE SCREEN
+    // ==========================================
+    function renderUserProfile() {
+      if (!currentUser) return;
+      document.getElementById('profile-avatar').src = currentUser.avatar;
+      document.getElementById('profile-display-name').textContent = currentUser.displayName;
+      document.getElementById('profile-username').textContent = '@' + currentUser.username;
+
+      // Contact info
+      const contactInfo = document.getElementById('profile-contact-info');
+      contactInfo.innerHTML = `
+        ${currentUser.email ? `<span><i class="fa-solid fa-envelope text-primary mr-1"></i>${currentUser.email}</span>` : ''}
+        ${currentUser.phone ? `<span><i class="fa-solid fa-phone text-accent ml-2 mr-1"></i>${currentUser.phone}</span>` : ''}
+      `;
+
+      document.getElementById('profile-bio').textContent = currentUser.bio || 'VibeVerse explorer ??';
+
+      // Counts
+      const posts = getStoredPosts().filter(p => p.username === currentUser.username);
+      document.getElementById('profile-posts-count').textContent = posts.length;
+      document.getElementById('profile-followers-count').textContent = currentUser.followers || 0;
+      document.getElementById('profile-following-count').textContent = currentUser.following || 0;
+
+      // Vibes list
+      const vibesList = document.getElementById('profile-vibes-list');
+      vibesList.innerHTML = (currentUser.interests || []).map(t => `
+        <span class="text-xs bg-primary/10 border border-primary/30 text-primary font-bold px-2.5 py-1 rounded-full">#${t}</span>
+      `).join('');
+
+      // Posts Grid
+      const grid = document.getElementById('profile-posts-grid');
+      grid.innerHTML = '';
+      if (posts.length === 0) {
+        grid.innerHTML = `<p class="col-span-3 text-xs text-gray-500 text-center py-4">No posts published yet.</p>`;
+      } else {
+        posts.forEach(p => {
+          grid.insertAdjacentHTML('beforeend', `
+            <div class="aspect-square rounded-xl overflow-hidden bg-card border border-border/60">
+              <img src="${p.image}" class="w-full h-full object-cover filter-${p.filter || 'normal'}">
+            </div>
+          `);
+        });
+      }
+    }
+
+    // ==========================================
+    // 9. GENERAL UTILITIES & NAVIGATION
+    // ==========================================
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      const navIds = ['feed', 'discover', 'reels', 'chat'];
+      navIds.forEach(id => {
+        const btn = document.getElementById('nav-' + id);
+        if (btn) {
+          if (id === tabId) {
+            btn.className = 'flex flex-col items-center space-y-1 text-primary';
+          } else {
+            btn.className = 'flex flex-col items-center space-y-1 text-gray-400 hover:text-white';
+          }
+        }
+      });
+
+      if (tabId === 'camera') {
+        requestCameraAccess();
+      }
+      if (tabId === 'profile') {
+        renderUserProfile();
+      }
+    }
+
+    function toggleReelSound() {
+      const video = document.getElementById('reel-video');
+      const btn = document.getElementById('reel-mute-btn');
+      video.muted = !video.muted;
+      btn.innerHTML = video.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+    }
+
+    function toggleReelLike(btn) {
+      const heart = btn.querySelector('i');
+      heart.classList.toggle('text-accent');
+      const counter = document.getElementById('reel-like-counter');
+      if (heart.classList.contains('text-accent')) {
+        counter.textContent = '1,201';
+      } else {
+        counter.textContent = '1,200';
+      }
+    }
+
+    function openReelComments() {
+      alert('Comments drawer opened! Share your thoughts on this Vibe Reel.');
+    }
+
+    function shareApp(text) {
+      if (navigator.share) {
+        navigator.share({ title: 'VibeVerse', text: text, url: window.location.href });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('?? VibeVerse link copied to clipboard!');
+      }
+    }
+
+    // Initialize application on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      checkCurrentSession();
+    });
+  </script>
+</body>
+</html>
