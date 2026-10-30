@@ -30,9 +30,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (email, password) => {
+  const login = async (identifier, password) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post('/auth/login', { identifier, password });
       const newToken = response.data.access_token || response.data.token;
       const userData = response.data.user;
       await AsyncStorage.setItem('authToken', newToken);
@@ -44,19 +44,24 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
       return { success: true };
     } catch (error) {
-      const message = error.response?.data?.detail || error.response?.data?.message || 'Login failed. Please try again.';
+      const message = error.response?.data?.detail || error.response?.data?.message || 'Login failed. Please verify credentials.';
       return { success: false, error: message };
     }
   };
 
-  const register = async (username, email, password, interests) => {
+  const sendOtp = async (identifier, purpose = 'register') => {
     try {
-      const response = await api.post('/auth/register', {
-        username,
-        email,
-        password,
-        interests,
-      });
+      const response = await api.post('/auth/send-otp', { identifier, purpose });
+      return { success: true, data: response.data };
+    } catch (error) {
+      const message = error.response?.data?.detail || 'Failed to send OTP code.';
+      return { success: false, error: message };
+    }
+  };
+
+  const register = async (registerData) => {
+    try {
+      const response = await api.post('/auth/register', registerData);
       const newToken = response.data.access_token || response.data.token;
       const userData = response.data.user;
       await AsyncStorage.setItem('authToken', newToken);
@@ -66,17 +71,9 @@ export const AuthProvider = ({ children }) => {
       }
       setToken(newToken);
       setIsAuthenticated(true);
-      return { success: true };
+      return { success: true, notifications: response.data.notifications_dispatched };
     } catch (error) {
       const message = error.response?.data?.detail || error.response?.data?.message || 'Registration failed. Please try again.';
-      return { success: false, error: message };
-    }
-  };
-      setUser(userData);
-      setIsAuthenticated(true);
-      return { success: true };
-    } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed. Please try again.';
       return { success: false, error: message };
     }
   };
@@ -111,6 +108,7 @@ export const AuthProvider = ({ children }) => {
         isLoading,
         isAuthenticated,
         login,
+        sendOtp,
         register,
         logout,
         updateUser,

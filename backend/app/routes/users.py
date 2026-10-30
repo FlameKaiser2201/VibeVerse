@@ -58,6 +58,10 @@ def discover_users(
         following_count = db.query(func.count(Connection.id)).filter(Connection.follower_id == u.id).scalar()
         posts_count = db.query(func.count(Post.id)).filter(Post.user_id == u.id).scalar()
 
+        u_interests = u.interests or []
+        shared = list(set(user_interests) & set(u_interests))
+        match_pct = int((len(shared) / max(len(user_interests), 1)) * 100) if user_interests else 50
+
         results.append(
             UserProfileResponse(
                 id=u.id,
@@ -65,12 +69,14 @@ def discover_users(
                 display_name=u.display_name,
                 bio=u.bio,
                 avatar_url=u.avatar_url,
-                interests=u.interests or [],
+                interests=u_interests,
                 created_at=u.created_at,
                 followers_count=followers_count,
                 following_count=following_count,
                 posts_count=posts_count,
                 is_following=False,
+                match_percentage=match_pct,
+                shared_interests=shared,
             )
         )
 

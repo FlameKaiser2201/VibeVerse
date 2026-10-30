@@ -29,5 +29,3 @@ services:
         value: "50"
       - key: DATABASE_URL
         sync: false
-        # Can be set to a Render MySQL or external MySQL instance:
-        # mysql+pymysql://<user>:<pass>@<host>:<port>/<dbname>

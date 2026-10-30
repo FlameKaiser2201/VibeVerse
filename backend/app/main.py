@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 from app.config import get_settings
 from app.database import Base, engine
@@ -71,6 +72,11 @@ app.include_router(reels_router)
 app.include_router(messages_router)
 app.include_router(notifications_router)
 
+# Mount static web directory
+static_dir = Path(__file__).resolve().parent / "static"
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
 from fastapi import WebSocket, WebSocketDisconnect
 from app.routes.messages import manager
 from app.services.auth import decode_token
@@ -104,12 +110,14 @@ def health_check():
     }
 
 
-@app.get("/", tags=["Root"])
+@app.get("/", tags=["Web App"])
 def root():
-    """Root welcome endpoint with links to interactive API documentation."""
+    """Serve the VibeVerse web application directly from the root URL."""
+    index_file = static_dir / "index.html"
+    if index_file.exists():
+        return FileResponse(str(index_file))
     return {
         "message": f"Welcome to {settings.APP_NAME} API! 🌌",
         "docs_url": "/docs",
-        "redoc_url": "/redoc",
         "health": "/health",
     }
